@@ -382,8 +382,6 @@ const DEFAULT_PAYMENT_METHODS = [
   {value:'cash',label:'نقدي'},
   {value:'vodafone',label:'فودافون كاش'},
   {value:'instapay',label:'إنستاباي'},
-  {value:'bank',label:'تحويل بنكي'},
-  {value:'check',label:'شيك'},
   {value:'none',label:'لا يوجد'}
 ];
 function getDefaultFilters() {
@@ -2100,9 +2098,8 @@ function renderPage(page) {
   const funcs = {
     dashboard:renderDashboard, customers:renderCustomers, products:renderProducts,
     invoices:renderInvoices, collections:renderCollections, wallet:renderWallet,
-    factoryPayments:renderFactoryPayments, officeOutgoing:renderOfficePayments,
-    officeIncoming:renderOfficeIncoming, profits:renderProfits, reports:renderReports,
-    activityLog:renderActivityLog, employeeReport:renderEmployeeReport, orderTracking:renderOrderTracking,
+    factoryPayments:renderFactoryPayments, profits:renderProfits, reports:renderReports,
+    activityLog:renderActivityLog, employeeReport:renderEmployeeReport,
     writeoffs:renderWriteoffs, settings:renderSettings,
     agentDiscountRates:renderAgentDiscountRates,
     branches:renderBranches, help:renderHelp
@@ -5236,7 +5233,7 @@ function renderEmployeeReport() {
   } else {
     html += '<div class="card" style="padding:0;overflow:hidden;margin-bottom:16px;"><div style="padding:12px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:0.9rem;"><i class="fas fa-table me-2" style="color:#5D5CDE;"></i>ملخص أداء المستخدمين</div><div style="overflow-x:auto;">'
       +'<table class="table-hover"><thead><tr>'
-      +'<th>#</th><th>المستخدم</th><th>عدد الفواتير</th><th>إجمالي المبيعات</th><th>الخصومات</th><th>صافي المبيعات</th><th>تكلفة المصنع</th><th>الربح</th><th>هامش الربح%</th><th>نسبة من الإجمالي</th>'
+      +'<th>#</th><th>المستخدم</th><th>عدد الفواتير</th><th>إجمالي المبيعات</th><th>الخصومات</th><th>صافي المبيعات</th><th>تكلفة البضاعة</th><th>الربح</th><th>هامش الربح%</th><th>نسبة من الإجمالي</th>'
       +'</tr></thead><tbody>';
     reps.forEach((r,idx) => {
       const pct = totalNet > 0 ? ((r.net/totalNet)*100).toFixed(1) : '0.0';
@@ -6397,9 +6394,7 @@ function renderBackupSettings() {
     +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-invoices" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-file-invoice me-1"></i> فواتير</label>'
     +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-collections" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-hand-holding-usd me-1"></i> تحصيلات</label>'
     +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-wallet" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-wallet me-1"></i> محفظة (فودافون كاش)</label>'
-    +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-factory-payments" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-industry me-1"></i> مدفوعات المصنع</label>'
-    +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-office-payments" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-building me-1"></i> مدفوعات المكتب الصادر</label>'
-    +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-office-incoming" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-arrow-circle-down me-1"></i> وارد المكتب</label>'
+    +'<label style="display:flex;align-items:center;gap:6px;color:#fdba74;cursor:pointer;"><input type="checkbox" id="del-factory-payments" style="width:16px;height:16px;cursor:pointer;accent-color:#f97316;"> <i class="fas fa-truck me-1"></i> دفعات الموردين</label>'
     +'</div>'
     +'<button onclick="clearSelectedData()" style="background:#f97316;color:white;padding:8px 16px;border-radius:8px;cursor:pointer;border:2px solid #c2410c;font-weight:700;"><i class="fas fa-trash-alt me-1"></i> حذف المحدد نهائياً</button>'
     +'</div>'
@@ -6908,9 +6903,7 @@ function clearSelectedData() {
     {id:'del-invoices',    keys:['invoices','invoice_items'],         stateKeys:['invoices','invoiceItems'], defaultVal:[], label:'فواتير'},
     {id:'del-collections', keys:['collections'],                      stateKeys:['collections'],     defaultVal:[],  label:'تحصيلات'},
     {id:'del-wallet',      keys:['wallet_ledger'],                    stateKeys:['walletLedger'],    defaultVal:[],  label:'محفظة (فودافون كاش)'},
-    {id:'del-factory-payments', keys:['factory_payments'],           stateKeys:['factoryPayments'], defaultVal:[],  label:'مدفوعات المصنع'},
-    {id:'del-office-payments',  keys:['office_payments'],            stateKeys:['officePayments'],  defaultVal:[],  label:'مدفوعات المكتب الصادر'},
-    {id:'del-office-incoming',  keys:['office_incoming'],            stateKeys:['officeIncoming'],  defaultVal:[],  label:'وارد المكتب'},
+    {id:'del-factory-payments', keys:['factory_payments'],           stateKeys:['factoryPayments'], defaultVal:[],  label:'دفعات الموردين'},
   ];
   const selected = DATA_TYPES.filter(m => document.getElementById(m.id)?.checked);
   if (!selected.length) { showToast('يرجى اختيار نوع بيانات واحد على الأقل','warning'); return; }
