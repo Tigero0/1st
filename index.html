@@ -457,7 +457,7 @@ function initSupabaseClient() {
   if (supabaseClient && !supabaseAdminClient && serviceKey && window.supabase) {
     try {
       supabaseAdminClient = window.supabase.createClient(url, serviceKey, {
-        auth: { autoRefreshToken: false, persistSession: false }
+        auth: { autoRefreshToken: false, persistSession: false, storageKey: 'sb-admin-client' }
       });
     } catch(e) {}
   }
@@ -5881,7 +5881,12 @@ async function testSupabaseConnection() {
       auth: { persistSession: false, autoRefreshToken: false, storageKey: 'sb-test-client-tmp' }
     });
     const {data,error} = await testClient.from('customers').select('count').limit(1);
-    if (error && error.code!=='PGRST116') throw error;
+    // 401 (Unauthorized) or 403 (Forbidden) means we reached the server successfully —
+    // the anon key just lacks permission due to RLS (expected without authentication).
+    // Any other error (network failure, wrong URL, etc.) is a real connection failure.
+    const isConnected = !error || error.code === 'PGRST116'
+      || error.status === 401 || error.status === 403;
+    if (!isConnected) throw error;
     // Test succeeded — save config and reinitialise the main clients via the singleton helper
     lsSet('supabase_config', { url, key, serviceKey: serviceKey || (lsGet('supabase_config')||{}).serviceKey || '' });
     supabaseClient = null; supabaseAdminClient = null; appState.supabaseConfigured = false;
