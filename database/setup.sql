@@ -1,6 +1,6 @@
 -- ============================================================
 -- سكريبت إنشاء قاعدة البيانات – نظام وكيل دهانات الحرمين
--- الإصدار: 3.0 (الملف الموحّد)
+-- الإصدار: 4.0 (الملف الموحّد)
 -- ============================================================
 -- كيفية الاستخدام:
 --   1. افتح Supabase Dashboard → SQL Editor
@@ -110,41 +110,17 @@ CREATE TABLE IF NOT EXISTS wallet_ledger (
   created_at     TIMESTAMPTZ DEFAULT NOW()
 );
 
--- جدول دفعات المصنع
+-- جدول دفعات الموردين
 CREATE TABLE IF NOT EXISTS factory_payments (
-  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  date       DATE NOT NULL,
-  amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
-  method     TEXT DEFAULT 'bank',
-  notes      TEXT,
-  reference  TEXT,
-  source_id  TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول صادر المكتب (المصروفات)
-CREATE TABLE IF NOT EXISTS office_payments (
-  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  date       DATE NOT NULL,
-  amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
-  category   TEXT,
-  method     TEXT DEFAULT 'cash',
-  notes      TEXT,
-  reference  TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول وارد المكتب
-CREATE TABLE IF NOT EXISTS office_incoming (
-  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  date       DATE NOT NULL,
-  amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
-  category   TEXT,
-  method     TEXT DEFAULT 'cash',
-  notes      TEXT,
-  reference  TEXT,
-  source_id  TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  date          DATE NOT NULL,
+  amount        DECIMAL(15,2) NOT NULL CHECK (amount > 0),
+  supplier_name TEXT,
+  method        TEXT DEFAULT 'bank',
+  notes         TEXT,
+  reference     TEXT,
+  source_id     TEXT,
+  created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- جدول مديونيات معدومة (تصفية حسابات)
@@ -157,6 +133,18 @@ CREATE TABLE IF NOT EXISTS writeoffs (
   notes         TEXT,
   created_by    TEXT,
   created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- جدول نسب الشركاء
+CREATE TABLE IF NOT EXISTS agent_discount_rates (
+  id                UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  discount_pct      DECIMAL(5,2) NOT NULL CHECK (discount_pct >= 0 AND discount_pct <= 100),
+  date_from         DATE NOT NULL,
+  date_to           DATE NOT NULL,
+  customer_category TEXT DEFAULT '',
+  notes             TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  CHECK (date_to >= date_from)
 );
 
 -- جدول الفروع
@@ -227,53 +215,52 @@ CREATE TABLE IF NOT EXISTS activity_log (
 -- الجزء الثاني: الفهارس
 -- ==============================
 
-CREATE INDEX IF NOT EXISTS idx_invoices_customer      ON invoices(customer_id);
-CREATE INDEX IF NOT EXISTS idx_invoice_items_invoice  ON invoice_items(invoice_id);
-CREATE INDEX IF NOT EXISTS idx_collections_customer   ON collections(customer_id);
-CREATE INDEX IF NOT EXISTS idx_wallet_ledger_date     ON wallet_ledger(date);
-CREATE INDEX IF NOT EXISTS idx_users_email            ON users(email);
-CREATE INDEX IF NOT EXISTS idx_activity_log_timestamp ON activity_log(timestamp DESC);
-CREATE INDEX IF NOT EXISTS idx_writeoffs_customer     ON writeoffs(customer_id);
-CREATE INDEX IF NOT EXISTS idx_branches_name          ON branches(name);
+CREATE INDEX IF NOT EXISTS idx_invoices_customer       ON invoices(customer_id);
+CREATE INDEX IF NOT EXISTS idx_invoice_items_invoice   ON invoice_items(invoice_id);
+CREATE INDEX IF NOT EXISTS idx_collections_customer    ON collections(customer_id);
+CREATE INDEX IF NOT EXISTS idx_wallet_ledger_date      ON wallet_ledger(date);
+CREATE INDEX IF NOT EXISTS idx_factory_payments_date   ON factory_payments(date);
+CREATE INDEX IF NOT EXISTS idx_users_email             ON users(email);
+CREATE INDEX IF NOT EXISTS idx_activity_log_timestamp  ON activity_log(timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_writeoffs_customer      ON writeoffs(customer_id);
+CREATE INDEX IF NOT EXISTS idx_branches_name           ON branches(name);
 
 -- ==============================
 -- الجزء الثالث: Row Level Security
 -- ==============================
 
-ALTER TABLE customers        ENABLE ROW LEVEL SECURITY;
-ALTER TABLE products         ENABLE ROW LEVEL SECURITY;
-ALTER TABLE invoices         ENABLE ROW LEVEL SECURITY;
-ALTER TABLE invoice_items    ENABLE ROW LEVEL SECURITY;
-ALTER TABLE collections      ENABLE ROW LEVEL SECURITY;
-ALTER TABLE wallet_ledger    ENABLE ROW LEVEL SECURITY;
-ALTER TABLE factory_payments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE office_payments  ENABLE ROW LEVEL SECURITY;
-ALTER TABLE office_incoming  ENABLE ROW LEVEL SECURITY;
-ALTER TABLE writeoffs        ENABLE ROW LEVEL SECURITY;
-ALTER TABLE users            ENABLE ROW LEVEL SECURITY;
-ALTER TABLE roles            ENABLE ROW LEVEL SECURITY;
-ALTER TABLE role_permissions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE app_settings     ENABLE ROW LEVEL SECURITY;
-ALTER TABLE activity_log     ENABLE ROW LEVEL SECURITY;
-ALTER TABLE branches         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customers             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products              ENABLE ROW LEVEL SECURITY;
+ALTER TABLE invoices              ENABLE ROW LEVEL SECURITY;
+ALTER TABLE invoice_items         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE collections           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wallet_ledger         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE factory_payments      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE writeoffs             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE agent_discount_rates  ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users                 ENABLE ROW LEVEL SECURITY;
+ALTER TABLE roles                 ENABLE ROW LEVEL SECURITY;
+ALTER TABLE role_permissions      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE app_settings          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_log          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE branches              ENABLE ROW LEVEL SECURITY;
 
 -- REPLICA IDENTITY FULL مطلوب لكي يعمل Supabase Realtime مع RLS
-ALTER TABLE customers        REPLICA IDENTITY FULL;
-ALTER TABLE products         REPLICA IDENTITY FULL;
-ALTER TABLE invoices         REPLICA IDENTITY FULL;
-ALTER TABLE invoice_items    REPLICA IDENTITY FULL;
-ALTER TABLE collections      REPLICA IDENTITY FULL;
-ALTER TABLE wallet_ledger    REPLICA IDENTITY FULL;
-ALTER TABLE factory_payments REPLICA IDENTITY FULL;
-ALTER TABLE office_payments  REPLICA IDENTITY FULL;
-ALTER TABLE office_incoming  REPLICA IDENTITY FULL;
-ALTER TABLE writeoffs        REPLICA IDENTITY FULL;
-ALTER TABLE users            REPLICA IDENTITY FULL;
-ALTER TABLE roles            REPLICA IDENTITY FULL;
-ALTER TABLE role_permissions REPLICA IDENTITY FULL;
-ALTER TABLE app_settings     REPLICA IDENTITY FULL;
-ALTER TABLE activity_log     REPLICA IDENTITY FULL;
-ALTER TABLE branches         REPLICA IDENTITY FULL;
+ALTER TABLE customers             REPLICA IDENTITY FULL;
+ALTER TABLE products              REPLICA IDENTITY FULL;
+ALTER TABLE invoices              REPLICA IDENTITY FULL;
+ALTER TABLE invoice_items         REPLICA IDENTITY FULL;
+ALTER TABLE collections           REPLICA IDENTITY FULL;
+ALTER TABLE wallet_ledger         REPLICA IDENTITY FULL;
+ALTER TABLE factory_payments      REPLICA IDENTITY FULL;
+ALTER TABLE writeoffs             REPLICA IDENTITY FULL;
+ALTER TABLE agent_discount_rates  REPLICA IDENTITY FULL;
+ALTER TABLE users                 REPLICA IDENTITY FULL;
+ALTER TABLE roles                 REPLICA IDENTITY FULL;
+ALTER TABLE role_permissions      REPLICA IDENTITY FULL;
+ALTER TABLE app_settings          REPLICA IDENTITY FULL;
+ALTER TABLE activity_log          REPLICA IDENTITY FULL;
+ALTER TABLE branches              REPLICA IDENTITY FULL;
 
 -- سياسات الوصول للجداول العامة (جميع المستخدمين المصادق عليهم)
 DROP POLICY IF EXISTS "authenticated_full_access" ON customers;
@@ -295,13 +282,10 @@ DROP POLICY IF EXISTS "authenticated_full_access" ON wallet_ledger;
 CREATE POLICY "authenticated_full_access" ON wallet_ledger    FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 DROP POLICY IF EXISTS "authenticated_full_access" ON factory_payments;
-CREATE POLICY "authenticated_full_access" ON factory_payments FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "authenticated_full_access" ON factory_payments     FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
-DROP POLICY IF EXISTS "authenticated_full_access" ON office_payments;
-CREATE POLICY "authenticated_full_access" ON office_payments  FOR ALL TO authenticated USING (true) WITH CHECK (true);
-
-DROP POLICY IF EXISTS "authenticated_full_access" ON office_incoming;
-CREATE POLICY "authenticated_full_access" ON office_incoming  FOR ALL TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "authenticated_full_access" ON agent_discount_rates;
+CREATE POLICY "authenticated_full_access" ON agent_discount_rates FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 DROP POLICY IF EXISTS "authenticated_full_access" ON writeoffs;
 CREATE POLICY "authenticated_full_access" ON writeoffs        FOR ALL TO authenticated USING (true) WITH CHECK (true);
@@ -391,24 +375,27 @@ ON CONFLICT (name) DO UPDATE SET label = EXCLUDED.label, protected = TRUE;
 -- حذف صلاحيات أي أدوار محذوفة
 DELETE FROM role_permissions WHERE role_name NOT IN (SELECT name FROM roles);
 
+-- حذف صلاحيات الصفحات المحذوفة
+DELETE FROM role_permissions WHERE page IN ('officeIncoming', 'officeOutgoing', 'orderTracking');
+
 -- مدير النظام: صلاحيات كاملة على جميع الصفحات
 INSERT INTO role_permissions (role_name, page, can_view, can_add, can_edit, can_delete) VALUES
-  ('admin', 'dashboard',       TRUE,  FALSE, FALSE, FALSE),
-  ('admin', 'customers',       TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'products',        TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'invoices',        TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'collections',     TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'wallet',          TRUE,  TRUE,  FALSE, TRUE),
-  ('admin', 'factoryPayments', TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'officeIncoming',  TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'officeOutgoing',  TRUE,  TRUE,  TRUE,  TRUE),
-  ('admin', 'profits',         TRUE,  FALSE, FALSE, FALSE),
-  ('admin', 'reports',         TRUE,  FALSE, FALSE, FALSE),
-  ('admin', 'activityLog',     TRUE,  FALSE, FALSE, FALSE),
-  ('admin', 'employeeReport',  TRUE,  FALSE, FALSE, FALSE),
-  ('admin', 'orderTracking',   TRUE,  FALSE, TRUE,  FALSE),
-  ('admin', 'writeoffs',       TRUE,  TRUE,  FALSE, TRUE),
-  ('admin', 'settings',        TRUE,  FALSE, FALSE, FALSE)
+  ('admin', 'dashboard',          TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'customers',          TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'products',           TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'invoices',           TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'collections',        TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'wallet',             TRUE,  TRUE,  FALSE, TRUE),
+  ('admin', 'factoryPayments',    TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'profits',            TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'reports',            TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'activityLog',        TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'employeeReport',     TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'writeoffs',          TRUE,  TRUE,  FALSE, TRUE),
+  ('admin', 'agentDiscountRates', TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'branches',           TRUE,  TRUE,  TRUE,  TRUE),
+  ('admin', 'help',               TRUE,  FALSE, FALSE, FALSE),
+  ('admin', 'settings',           TRUE,  FALSE, FALSE, FALSE)
 ON CONFLICT (role_name, page) DO UPDATE SET
   can_view   = EXCLUDED.can_view,
   can_add    = EXCLUDED.can_add,
@@ -417,21 +404,21 @@ ON CONFLICT (role_name, page) DO UPDATE SET
 
 -- مدير عام: صلاحيات واسعة بدون حذف
 INSERT INTO role_permissions (role_name, page, can_view, can_add, can_edit, can_delete) VALUES
-  ('manager', 'dashboard',       TRUE,  FALSE, FALSE, FALSE),
-  ('manager', 'customers',       TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'products',        TRUE,  FALSE, FALSE, FALSE),
-  ('manager', 'invoices',        TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'collections',     TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'wallet',          TRUE,  TRUE,  FALSE, FALSE),
-  ('manager', 'factoryPayments', TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'officeIncoming',  TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'officeOutgoing',  TRUE,  TRUE,  TRUE,  FALSE),
-  ('manager', 'profits',         TRUE,  FALSE, FALSE, FALSE),
-  ('manager', 'reports',         TRUE,  FALSE, FALSE, FALSE),
-  ('manager', 'employeeReport',  TRUE,  FALSE, FALSE, FALSE),
-  ('manager', 'orderTracking',   TRUE,  FALSE, TRUE,  FALSE),
-  ('manager', 'writeoffs',       TRUE,  TRUE,  FALSE, FALSE),
-  ('manager', 'settings',        TRUE,  FALSE, FALSE, FALSE)
+  ('manager', 'dashboard',          TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'customers',          TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'products',           TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'invoices',           TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'collections',        TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'wallet',             TRUE,  TRUE,  FALSE, FALSE),
+  ('manager', 'factoryPayments',    TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'profits',            TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'reports',            TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'employeeReport',     TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'writeoffs',          TRUE,  TRUE,  FALSE, FALSE),
+  ('manager', 'agentDiscountRates', TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'branches',           TRUE,  TRUE,  TRUE,  FALSE),
+  ('manager', 'help',               TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'settings',           TRUE,  FALSE, FALSE, FALSE)
 ON CONFLICT (role_name, page) DO UPDATE SET
   can_view   = EXCLUDED.can_view,
   can_add    = EXCLUDED.can_add,
@@ -444,7 +431,8 @@ INSERT INTO role_permissions (role_name, page, can_view, can_add, can_edit, can_
   ('sales', 'customers',   TRUE,  TRUE,  TRUE,  FALSE),
   ('sales', 'products',    TRUE,  FALSE, FALSE, FALSE),
   ('sales', 'invoices',    TRUE,  TRUE,  TRUE,  FALSE),
-  ('sales', 'collections', TRUE,  TRUE,  FALSE, FALSE)
+  ('sales', 'collections', TRUE,  TRUE,  FALSE, FALSE),
+  ('sales', 'help',        TRUE,  FALSE, FALSE, FALSE)
 ON CONFLICT (role_name, page) DO UPDATE SET
   can_view   = EXCLUDED.can_view,
   can_add    = EXCLUDED.can_add,
@@ -453,11 +441,11 @@ ON CONFLICT (role_name, page) DO UPDATE SET
 
 -- حسابات: صلاحيات التحصيل والمحفظة
 INSERT INTO role_permissions (role_name, page, can_view, can_add, can_edit, can_delete) VALUES
-  ('collector', 'dashboard',      TRUE,  FALSE, FALSE, FALSE),
-  ('collector', 'customers',      TRUE,  FALSE, FALSE, FALSE),
-  ('collector', 'collections',    TRUE,  TRUE,  FALSE, FALSE),
-  ('collector', 'officeIncoming', TRUE,  TRUE,  FALSE, FALSE),
-  ('collector', 'wallet',         TRUE,  FALSE, FALSE, FALSE)
+  ('collector', 'dashboard',   TRUE,  FALSE, FALSE, FALSE),
+  ('collector', 'customers',   TRUE,  FALSE, FALSE, FALSE),
+  ('collector', 'collections', TRUE,  TRUE,  FALSE, FALSE),
+  ('collector', 'wallet',      TRUE,  FALSE, FALSE, FALSE),
+  ('collector', 'help',        TRUE,  FALSE, FALSE, FALSE)
 ON CONFLICT (role_name, page) DO UPDATE SET
   can_view   = EXCLUDED.can_view,
   can_add    = EXCLUDED.can_add,
@@ -606,46 +594,16 @@ INSERT INTO wallet_ledger (id, date, direction, category, counterparty, invoice_
   ('g1000001-0000-0000-0000-000000000021', '2025-03-25', 'in',  'تحصيل عميل',   'أحمد فؤاد للبناء',    '',                 1000.00, 'vodafone', 8880.00,  '',                    '2025-03-25 09:00:00+00')
 ON CONFLICT DO NOTHING;
 
--- ---- 6.7 دفعات المصنع ----
-INSERT INTO factory_payments (id, date, amount, method, notes, reference, created_at) VALUES
-  ('h1000001-0000-0000-0000-000000000001', '2025-01-18', 10000.00, 'bank',     'دفعة للمصنع – يناير', 'REF-1001', '2025-01-18 10:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000002', '2025-01-25',  5000.00, 'vodafone', 'دفعة فودافون كاش',     'REF-1002', '2025-01-25 11:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000003', '2025-02-06',  8000.00, 'bank',     'دفعة للمصنع – فبراير', 'REF-1003', '2025-02-06 09:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000004', '2025-02-15', 12000.00, 'check',    'شيك دفعة مصنع',        'REF-1004', '2025-02-15 10:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000005', '2025-02-28',  7500.00, 'bank',     'دفعة نهاية فبراير',    'REF-1005', '2025-02-28 08:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000006', '2025-03-05',  9000.00, 'bank',     'دفعة للمصنع – مارس',   'REF-1006', '2025-03-05 09:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000007', '2025-03-15',  6000.00, 'vodafone', 'دفعة فودافون كاش',     'REF-1007', '2025-03-15 11:00:00+00'),
-  ('h1000001-0000-0000-0000-000000000008', '2025-03-22', 11000.00, 'bank',     'دفعة نهاية مارس',      'REF-1008', '2025-03-22 10:00:00+00')
-ON CONFLICT DO NOTHING;
-
--- ---- 6.8 صادر المكتب (المصروفات) ----
-INSERT INTO office_payments (id, date, amount, category, method, notes, reference, created_at) VALUES
-  ('i1000001-0000-0000-0000-000000000001', '2025-01-05',  3500.00, 'إيجار مكتب',    'cash', 'إيجار مكتب يناير',      '', '2025-01-05 09:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000002', '2025-01-10',  8000.00, 'رواتب',         'bank', 'رواتب الموظفين يناير',  '', '2025-01-10 10:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000003', '2025-01-15',   600.00, 'فواتير خدمات', 'cash', 'فاتورة كهرباء + انترنت','', '2025-01-15 11:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000004', '2025-01-20',   350.00, 'مصروفات تشغيل','cash', 'متنوع',                 '', '2025-01-20 09:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000005', '2025-02-05',  3500.00, 'إيجار مكتب',    'cash', 'إيجار مكتب فبراير',     '', '2025-02-05 09:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000006', '2025-02-10',  8500.00, 'رواتب',         'bank', 'رواتب الموظفين فبراير', '', '2025-02-10 10:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000007', '2025-02-15',   550.00, 'فواتير خدمات', 'cash', 'فاتورة كهرباء',         '', '2025-02-15 11:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000008', '2025-02-22',  1200.00, 'مصروفات شحن',  'cash', 'شحن بضاعة',             '', '2025-02-22 09:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000009', '2025-03-05',  3500.00, 'إيجار مكتب',    'cash', 'إيجار مكتب مارس',       '', '2025-03-05 09:00:00+00'),
-  ('i1000001-0000-0000-0000-000000000010', '2025-03-10',  9000.00, 'رواتب',         'bank', 'رواتب الموظفين مارس',   '', '2025-03-10 10:00:00+00')
-ON CONFLICT DO NOTHING;
-
--- ---- 6.9 وارد المكتب ----
-INSERT INTO office_incoming (id, date, amount, category, method, notes, reference, created_at) VALUES
-  ('j1000001-0000-0000-0000-000000000001', '2025-01-10', 2500.00, 'تحصيل نقدي من عميل', 'cash',     'من مقاولات النيل',      '', '2025-01-10 10:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000002', '2025-01-16', 3000.00, 'تحويل بنكي من عميل', 'bank',     'من محمد أحمد للمقاولات','', '2025-01-16 11:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000003', '2025-01-22', 4500.00, 'تحصيل نقدي من عميل', 'cash',     'من شركة البناء الحديث', '', '2025-01-22 09:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000004', '2025-02-02', 2700.00, 'تحويل بنكي من عميل', 'bank',     'من مؤسسة الإعمار',      '', '2025-02-02 10:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000005', '2025-02-10', 2000.00, 'إيداع فودافون',       'vodafone', 'من علي حسن للدهانات',   '', '2025-02-10 11:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000006', '2025-02-19', 1800.00, 'تحصيل نقدي من عميل', 'cash',     'من مقاولات الدلتا',     '', '2025-02-19 09:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000007', '2025-02-25',  500.00, 'عمولة بيع',           'cash',     'عمولة مبيعات',          '', '2025-02-25 10:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000008', '2025-03-03', 3200.00, 'تحويل بنكي من عميل', 'bank',     'من مقاولات النيل',      '', '2025-03-03 11:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000009', '2025-03-11', 2000.00, 'تحصيل نقدي من عميل', 'cash',     'من شركة البناء الحديث', '', '2025-03-11 09:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000010', '2025-03-13', 1200.00, 'إيداع فودافون',       'vodafone', 'من أحمد فؤاد للبناء',   '', '2025-03-13 10:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000011', '2025-03-17', 2600.00, 'تحويل بنكي من عميل', 'bank',     'من شركة النور',         '', '2025-03-17 11:00:00+00'),
-  ('j1000001-0000-0000-0000-000000000012', '2025-03-24', 1900.00, 'تحصيل نقدي من عميل', 'cash',     'من مصطفى كمال',         '', '2025-03-24 09:00:00+00')
+-- ---- 6.7 دفعات الموردين ----
+INSERT INTO factory_payments (id, date, amount, supplier_name, method, notes, reference, created_at) VALUES
+  ('h1000001-0000-0000-0000-000000000001', '2025-01-18', 10000.00, 'مصنع الحرمين', 'bank',     'دفعة للمورد – يناير',  'REF-1001', '2025-01-18 10:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000002', '2025-01-25',  5000.00, 'مصنع الحرمين', 'vodafone', 'دفعة فودافون كاش',     'REF-1002', '2025-01-25 11:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000003', '2025-02-06',  8000.00, 'مصنع الحرمين', 'bank',     'دفعة للمورد – فبراير', 'REF-1003', '2025-02-06 09:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000004', '2025-02-15', 12000.00, 'مصنع الحرمين', 'check',    'شيك دفعة مورد',        'REF-1004', '2025-02-15 10:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000005', '2025-02-28',  7500.00, 'مصنع الحرمين', 'bank',     'دفعة نهاية فبراير',    'REF-1005', '2025-02-28 08:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000006', '2025-03-05',  9000.00, 'مصنع الحرمين', 'bank',     'دفعة للمورد – مارس',   'REF-1006', '2025-03-05 09:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000007', '2025-03-15',  6000.00, 'مصنع الحرمين', 'vodafone', 'دفعة فودافون كاش',     'REF-1007', '2025-03-15 11:00:00+00'),
+  ('h1000001-0000-0000-0000-000000000008', '2025-03-22', 11000.00, 'مصنع الحرمين', 'bank',     'دفعة نهاية مارس',      'REF-1008', '2025-03-22 10:00:00+00')
 ON CONFLICT DO NOTHING;
 
 -- ============================================================
