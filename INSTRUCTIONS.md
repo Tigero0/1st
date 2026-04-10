@@ -123,7 +123,7 @@
 
 ### الطريقة 1: مباشرة من المتصفح (إذا كان Supabase مُعدَّداً مسبقاً)
 
-إذا كانت بيانات Supabase موجودة في ملف `index.html` مسبقاً (في أسطر 440-441):
+إذا كانت بيانات Supabase موجودة في ملف `index.html` مسبقاً (في أسطر 440-441) وكان الإعداد مكتملاً:
 ```
 window.SUPABASE_URL  = 'https://xxxxx.supabase.co';
 window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIs...';
