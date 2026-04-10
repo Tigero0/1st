@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الحرمين للدهانات الحديثة</title>
+<title>نظام إدارة توزيع المواد الغذائية</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234338ca'/%3E%3Cg fill='white'%3E%3Crect x='12' y='10' width='30' height='8' rx='3'/%3E%3Crect x='12' y='10' width='8' height='22' rx='3'/%3E%3Crect x='34' y='10' width='8' height='22' rx='3'/%3E%3Crect x='10' y='29' width='34' height='6' rx='3'/%3E%3Crect x='22' y='34' width='10' height='10' rx='2'/%3E%3Cellipse cx='27' cy='50' rx='10' ry='6' fill='%235D5CDE'/%3E%3Cellipse cx='27' cy='50' rx='7' ry='4' fill='%23a5b4fc'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -242,9 +242,9 @@ select.form-input option{background:white;color:#1f2937;}
       <!-- Logo & Branding -->
       <div style="text-align:center;margin-bottom:32px;">
         <div style="display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;background:linear-gradient(135deg,#312e81,#4338ca,#5D5CDE);border-radius:22px;box-shadow:0 8px 24px rgba(67,56,202,0.45);margin-bottom:16px;">
-          <i class="fas fa-paint-roller" style="font-size:34px;color:white;"></i>
+          <i class="fas fa-warehouse" style="font-size:34px;color:white;"></i>
         </div>
-        <h1 style="font-size:1.55rem;font-weight:800;color:#1e1b4b;letter-spacing:-0.3px;margin-bottom:4px;">الحرمين للدهانات الحديثة</h1>
+        <h1 style="font-size:1.55rem;font-weight:800;color:#1e1b4b;letter-spacing:-0.3px;margin-bottom:4px;">نظام إدارة توزيع المواد الغذائية</h1>
         <p style="color:#6b7280;font-size:0.875rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;">
           <span style="display:inline-block;width:28px;height:1px;background:#d1d5db;"></span>
           نظام إدارة الأعمال
@@ -309,10 +309,10 @@ select.form-input option{background:white;color:#1f2937;}
     <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
       <div class="sidebar-logo-icon" style="display:flex;align-items:center;gap:10px;overflow:hidden;">
         <div style="min-width:38px;width:38px;height:38px;background:rgba(93,92,222,0.8);border-radius:10px;display:flex;align-items:center;justify-content:center;">
-          <i class="fas fa-paint-roller" style="color:white;font-size:16px;"></i>
+          <i class="fas fa-warehouse" style="color:white;font-size:16px;"></i>
         </div>
         <div class="sidebar-logo-text">
-          <div style="color:white;font-weight:700;font-size:0.9rem;white-space:nowrap;">دهانات الحرمين</div>
+          <div style="color:white;font-weight:700;font-size:0.9rem;white-space:nowrap;">توزيع المواد الغذائية</div>
           <div style="color:#a5b4fc;font-size:0.75rem;white-space:nowrap;">نظام إدارة الأعمال</div>
         </div>
       </div>
@@ -380,17 +380,14 @@ const DATA_TABLES = [
 ];
 const DEFAULT_PAYMENT_METHODS = [
   {value:'cash',label:'نقدي'},
-  {value:'vodafone',label:'فودافون المكتب'},
+  {value:'vodafone',label:'فودافون كاش'},
+  {value:'instapay',label:'إنستاباي'},
   {value:'bank',label:'تحويل بنكي'},
   {value:'check',label:'شيك'},
-  {value:'bank_factory',label:'تحويل بنكي المصنع'},
-  {value:'wallet_factory',label:'محفظة المصنع'},
-  {value:'cash_factory',label:'نقدي المصنع'},
-  {value:'check_factory',label:'شيك المصنع'},
   {value:'none',label:'لا يوجد'}
 ];
 function getDefaultFilters() {
-  return { customers:'', customersStatus:'all', customersCategory:'', products:'', productsCategory:'', invoices:'', invoicesStatus:'all', invoicesFrom:'', invoicesTo:'', collections:'', collectionsMethod:'', collectionsFrom:'', collectionsTo:'', wallet:'', walletDirection:'all', walletFrom:'', walletTo:'', factoryPayments:'', factoryPaymentsMethod:'', factoryPaymentsFrom:'', factoryPaymentsTo:'', officePayments:'', officePaymentsCategory:'', officePaymentsFrom:'', officePaymentsTo:'', officeIncoming:'', officeIncomingCategory:'', officeIncomingFrom:'', officeIncomingTo:'', activityLog:'', activityLogFrom:'', activityLogTo:'', activityLogUser:'', activityLogAction:'', employeeReportFrom:'', employeeReportTo:'', employeeReportRep:'', orderTracking:'', orderTrackingStatus:'all', orderTrackingRep:'', orderTrackingFrom:'', orderTrackingTo:'', writeoffs:'', writeoffsFrom:'', writeoffsTo:'' };
+  return { customers:'', customersStatus:'all', customersCategory:'', products:'', productsCategory:'', invoices:'', invoicesStatus:'all', invoicesFrom:'', invoicesTo:'', collections:'', collectionsMethod:'', collectionsFrom:'', collectionsTo:'', wallet:'', walletDirection:'all', walletFrom:'', walletTo:'', factoryPayments:'', factoryPaymentsMethod:'', factoryPaymentsFrom:'', factoryPaymentsTo:'', activityLog:'', activityLogFrom:'', activityLogTo:'', activityLogUser:'', activityLogAction:'', employeeReportFrom:'', employeeReportTo:'', employeeReportRep:'', writeoffs:'', writeoffsFrom:'', writeoffsTo:'', branches:'' };
 }
 const appState = {
   currentUser: null,
@@ -405,21 +402,21 @@ const appState = {
   collections: [],
   walletLedger: [],
   factoryPayments: [],
-  officePayments: [],
-  officeIncoming: [],
   activityLog: [],
   users: [],
   writeoffs: [],
   agentDiscountRates: [],
+  branches: [],
+  currentBranch: null,
   _activityLogTableMissing: false,
   dashboardPeriod: { type: 'month', from: '', to: '' },
   chartInstances: {},
-  pagination: { customers:1, products:1, invoices:1, collections:1, wallet:1, factoryPayments:1, officePayments:1, officeIncoming:1, orderTracking:1, activityLog:1, writeoffs:1 },
-  sort: { customers:{col:'',dir:'asc'}, products:{col:'',dir:'asc'}, invoices:{col:'',dir:'asc'}, collections:{col:'',dir:'asc'}, wallet:{col:'',dir:'asc'}, factoryPayments:{col:'',dir:'asc'}, officePayments:{col:'',dir:'asc'}, officeIncoming:{col:'',dir:'asc'}, orderTracking:{col:'',dir:'asc'}, activityLog:{col:'',dir:'asc'}, writeoffs:{col:'',dir:'asc'} },
+  pagination: { customers:1, products:1, invoices:1, collections:1, wallet:1, factoryPayments:1, activityLog:1, writeoffs:1, branches:1 },
+  sort: { customers:{col:'',dir:'asc'}, products:{col:'',dir:'asc'}, invoices:{col:'',dir:'asc'}, collections:{col:'',dir:'asc'}, wallet:{col:'',dir:'asc'}, factoryPayments:{col:'',dir:'asc'}, activityLog:{col:'',dir:'asc'}, writeoffs:{col:'',dir:'asc'} },
   pageSize: 20,
   filters: getDefaultFilters(),
   settings: {
-    companyName:'وكيل دهانات الحرمين',
+    companyName:'نظام إدارة توزيع المواد الغذائية',
     currency:'ج.م',
     defaultDiscount:0,
     openingWalletBalance:0,
@@ -726,7 +723,7 @@ async function dbLoadSettings() {
 }
 async function loadAllData() {
   // Fetch all tables in parallel for faster startup
-  const [customers, products, invoices, invoiceItems, collections, walletLedger, factoryPayments, officePayments, officeIncoming, users, writeoffs, agentDiscountRates] = await Promise.all([
+  const [customers, products, invoices, invoiceItems, collections, walletLedger, factoryPayments, users, writeoffs, agentDiscountRates, branches] = await Promise.all([
     dbGet('customers'),
     dbGet('products'),
     dbGet('invoices'),
@@ -734,30 +731,25 @@ async function loadAllData() {
     dbGet('collections'),
     dbGet('wallet_ledger'),
     dbGet('factory_payments'),
-    dbGet('office_payments'),
-    dbGet('office_incoming'),
     dbGet('users'),
     dbGet('writeoffs'),
-    dbGet('agent_discount_rates')
+    dbGet('agent_discount_rates'),
+    dbGet('branches')
   ]);
   appState.customers = customers;
   appState.products = products;
   appState.invoices = invoices;
-  // Migrate: set delivery_status='delivered' for existing invoices that don't have it
   let migrated = false;
   appState.invoices.forEach(inv => {
     if (!inv.delivery_status) { inv.delivery_status = 'delivered'; migrated = true; }
   });
   if (migrated) { /* update already applied in-memory */ }
   appState.invoiceItems = invoiceItems;
-  // Migrate: back-fill factory_price per item for old invoice_items that don't have it stored.
-  // Old items have factory_price=undefined; new items always have it as a number.
-  // Distributes invoice.factory_amount proportionally across items by their total share.
   let itemsMigrated = false;
   const invMap = {};
   appState.invoices.forEach(inv => { invMap[inv.id] = inv; });
   appState.invoiceItems.forEach(it => {
-    if (it.factory_price !== undefined && it.factory_price !== null) return; // already has stored value
+    if (it.factory_price !== undefined && it.factory_price !== null) return;
     const inv = invMap[it.invoice_id];
     if (!inv || !(inv.net_amount > 0) || !it.qty) { it.factory_price = 0; return; }
     const itemShare = it.total / inv.net_amount;
@@ -770,11 +762,10 @@ async function loadAllData() {
   appState.collections = collections;
   appState.walletLedger = walletLedger;
   appState.factoryPayments = factoryPayments;
-  appState.officePayments = officePayments;
-  appState.officeIncoming = officeIncoming;
   appState.users = users;
   appState.writeoffs = writeoffs;
   appState.agentDiscountRates = agentDiscountRates;
+  appState.branches = branches || [];
   appState.activityLog = (await dbGet('activity_log')) || [];
   await dbLoadSettings();
 }
@@ -798,23 +789,21 @@ function setupRealtimeSync() {
     'customers': 'customers', 'products': 'products', 'invoices': 'invoices',
     'invoice_items': 'invoiceItems', 'collections': 'collections',
     'wallet_ledger': 'walletLedger', 'factory_payments': 'factoryPayments',
-    'office_payments': 'officePayments', 'office_incoming': 'officeIncoming',
-    'users': 'users', 'writeoffs': 'writeoffs'
+    'users': 'users', 'writeoffs': 'writeoffs', 'branches': 'branches'
   };
   const tableToPage = {
     'customers': 'customers', 'products': 'products',
     'invoices': 'invoices', 'invoice_items': 'invoices',
     'collections': 'collections', 'wallet_ledger': 'wallet',
-    'factory_payments': 'factoryPayments', 'office_payments': 'officeOutgoing',
-    'office_incoming': 'officeIncoming', 'users': 'settings',
-    'writeoffs': 'writeoffs'
+    'factory_payments': 'factoryPayments', 'users': 'settings',
+    'writeoffs': 'writeoffs', 'branches': 'branches'
   };
   const pageRenderFuncs = {
     customers: renderCustomers, products: renderProducts, invoices: renderInvoices,
     collections: renderCollections, wallet: renderWallet,
-    factoryPayments: renderFactoryPayments, officeOutgoing: renderOfficePayments,
-    officeIncoming: renderOfficeIncoming, settings: renderSettingsTab,
-    dashboard: renderDashboard, reports: renderReportTab, writeoffs: renderWriteoffs
+    factoryPayments: renderFactoryPayments, settings: renderSettingsTab,
+    dashboard: renderDashboard, reports: renderReportTab, writeoffs: renderWriteoffs,
+    branches: renderBranches, help: renderHelp
   };
 
   const makeRealtimeCallback = (table) => async () => {
@@ -921,9 +910,9 @@ async function refreshData() {
     const rf = {
       dashboard: renderDashboard, customers: renderCustomers, products: renderProducts,
       invoices: renderInvoices, collections: renderCollections, wallet: renderWallet,
-      factoryPayments: renderFactoryPayments, officeOutgoing: renderOfficePayments,
-      officeIncoming: renderOfficeIncoming, reports: renderReportTab,
-      settings: renderSettingsTab, activityLog: renderActivityLog
+      factoryPayments: renderFactoryPayments, reports: renderReportTab,
+      settings: renderSettingsTab, activityLog: renderActivityLog,
+      branches: renderBranches, help: renderHelp
     };
     const fn = rf[appState.currentPage];
     if (fn) fn();
@@ -1426,7 +1415,7 @@ function setSort(page, col) {
   if (!s) return;
   if (s.col===col) s.dir = s.dir==='asc' ? 'desc' : 'asc';
   else { s.col=col; s.dir='asc'; }
-  const rf = {customers:renderCustomers, products:renderProducts, invoices:renderInvoices, collections:renderCollections, wallet:renderWallet, factoryPayments:renderFactoryPayments, officePayments:renderOfficePayments, officeIncoming:renderOfficeIncoming, orderTracking:renderOrderTracking, activityLog:renderActivityLog};
+  const rf = {customers:renderCustomers, products:renderProducts, invoices:renderInvoices, collections:renderCollections, wallet:renderWallet, factoryPayments:renderFactoryPayments, activityLog:renderActivityLog, branches:renderBranches, help:renderHelp};
   if (rf[page]) rf[page]();
 }
 function thSort(page, col, label) {
@@ -1719,9 +1708,9 @@ function startAutoRefresh() {
       const rf = {
         dashboard: renderDashboard, customers: renderCustomers, products: renderProducts,
         invoices: renderInvoices, collections: renderCollections, wallet: renderWallet,
-        factoryPayments: renderFactoryPayments, officeOutgoing: renderOfficePayments,
-        officeIncoming: renderOfficeIncoming, reports: renderReportTab,
-        settings: renderSettingsTab, activityLog: renderActivityLog, writeoffs: renderWriteoffs
+        factoryPayments: renderFactoryPayments, reports: renderReportTab,
+        settings: renderSettingsTab, activityLog: renderActivityLog, writeoffs: renderWriteoffs,
+        branches: renderBranches, help: renderHelp
       };
       const fn = rf[appState.currentPage];
       if (fn) fn();
@@ -1743,9 +1732,6 @@ function resetPageFilters(page) {
     collections:     { keys:['collections','collectionsMethod','collectionsFrom','collectionsTo'], pag:'collections', render:renderCollections },
     wallet:          { keys:['wallet','walletDirection','walletFrom','walletTo'],       pag:'wallet',          render:renderWallet },
     factoryPayments: { keys:['factoryPayments','factoryPaymentsMethod','factoryPaymentsFrom','factoryPaymentsTo'], pag:'factoryPayments', render:renderFactoryPayments },
-    officeOutgoing:  { keys:['officePayments','officePaymentsCategory','officePaymentsFrom','officePaymentsTo'], pag:'officePayments', render:renderOfficePayments },
-    officeIncoming:  { keys:['officeIncoming','officeIncomingCategory','officeIncomingFrom','officeIncomingTo'], pag:'officeIncoming', render:renderOfficeIncoming },
-    orderTracking:   { keys:['orderTracking','orderTrackingStatus','orderTrackingRep','orderTrackingFrom','orderTrackingTo'], pag:'orderTracking', render:renderOrderTracking },
     activityLog:     { keys:['activityLog','activityLogFrom','activityLogTo','activityLogUser','activityLogAction'], pag:'activityLog', render:renderActivityLog },
     writeoffs:       { keys:['writeoffs','writeoffsFrom','writeoffsTo'], pag:'writeoffs', render:renderWriteoffs }
   };
@@ -1956,42 +1942,45 @@ function clearActivityLog() {
 const PAGE_TITLES = {
   dashboard:'لوحة التحكم', customers:'العملاء', products:'المنتجات',
   invoices:'الفواتير', collections:'التحصيلات',
-  officeIncoming:'وارد المكتب', officeOutgoing:'صادر المكتب',
-  wallet:'فودافون كاش', factoryPayments:'دفعات للمصنع',
+  wallet:'فودافون كاش', factoryPayments:'دفعات الموردين',
   profits:'الأرباح', reports:'التقارير', activityLog:'سجل الحركات',
-  employeeReport:'تقرير الموظفين', orderTracking:'تتبع الطلبات',
+  employeeReport:'تقرير المندوبين',
   writeoffs:'مديونيات معدومة',
-  agentDiscountRates:'نسب خصم الوكيل',
+  agentDiscountRates:'نسب الشركاء',
+  branches:'إدارة الفروع',
+  help:'المساعدة',
   settings:'الإعدادات'
 };
 const ROLE_MENUS = {
-  admin:   ['dashboard','customers','products','invoices','collections','officeIncoming','officeOutgoing','wallet','factoryPayments','profits','reports','activityLog','employeeReport','orderTracking','writeoffs','agentDiscountRates','settings'],
-  manager: ['dashboard','customers','products','invoices','collections','officeIncoming','officeOutgoing','wallet','factoryPayments','profits','reports','activityLog','employeeReport','orderTracking','writeoffs','agentDiscountRates','settings'],
-  sales:   ['customers','products','invoices','collections'],
-  collector:['customers','collections','officeIncoming','wallet']
+  admin:   ['dashboard','customers','products','invoices','collections','wallet','factoryPayments','profits','reports','activityLog','employeeReport','writeoffs','agentDiscountRates','branches','help','settings'],
+  manager: ['dashboard','customers','products','invoices','collections','wallet','factoryPayments','profits','reports','activityLog','employeeReport','writeoffs','agentDiscountRates','branches','help','settings'],
+  sales:   ['customers','products','invoices','collections','help'],
+  collector:['customers','collections','wallet','help']
 };
 const MENU_ICONS = {
   dashboard:'fa-tachometer-alt', customers:'fa-users', products:'fa-box',
   invoices:'fa-file-invoice', collections:'fa-money-bill-wave',
-  officeIncoming:'fa-arrow-circle-down', officeOutgoing:'fa-arrow-circle-up',
-  wallet:'fa-mobile-alt', factoryPayments:'fa-industry',
+  wallet:'fa-mobile-alt', factoryPayments:'fa-truck',
   profits:'fa-chart-line', reports:'fa-chart-bar', activityLog:'fa-history',
-  employeeReport:'fa-user-tie', orderTracking:'fa-shipping-fast',
+  employeeReport:'fa-user-tie',
   writeoffs:'fa-ban',
   agentDiscountRates:'fa-percent',
+  branches:'fa-code-branch',
+  help:'fa-question-circle',
   settings:'fa-cog'
 };
 // All navigable pages list
-const ALL_PAGES = ['dashboard','customers','products','invoices','collections','officeIncoming','officeOutgoing','wallet','factoryPayments','profits','reports','activityLog','employeeReport','orderTracking','writeoffs','agentDiscountRates','settings'];
+const ALL_PAGES = ['dashboard','customers','branches','products','invoices','collections','wallet','factoryPayments','profits','reports','activityLog','employeeReport','writeoffs','agentDiscountRates','help','settings'];
 
 // Operations supported per page
 const PAGE_OPERATIONS = {
   dashboard:['view'], customers:['view','add','edit','delete','export'],
   products:['view','add','edit','delete','export'], invoices:['view','add','edit','cancel','delete','export','viewTotals','editPrice'],
   collections:['view','add','edit','delete','export','viewTotals'], wallet:['view','add','delete','viewTotals'],
-  factoryPayments:['view','add','edit','delete','viewTotals'], officeIncoming:['view','add','edit','delete','viewTotals'],
-  officeOutgoing:['view','add','edit','delete','viewTotals'], profits:['view'], reports:['view'], activityLog:['view'],
-  employeeReport:['view'], orderTracking:['view','edit','export'], writeoffs:['view','add','delete','export','viewTotals'], agentDiscountRates:['view','add','edit','delete'], settings:['view']
+  factoryPayments:['view','add','edit','delete','viewTotals'],
+  profits:['view'], reports:['view'], activityLog:['view'],
+  employeeReport:['view'], writeoffs:['view','add','delete','export','viewTotals'], agentDiscountRates:['view','add','edit','delete'],
+  branches:['view','add','edit','delete'], help:['view'], settings:['view']
 };
 const OP_LABELS = {view:'عرض', add:'إضافة', edit:'تعديل', cancel:'إلغاء', delete:'حذف', export:'تصدير', viewTotals:'عرض الإجماليات', editPrice:'تعديل سعر الصنف'};
 
@@ -2001,28 +1990,30 @@ const DEFAULT_ROLE_PERMS = {
     dashboard:{view:true}, customers:{view:true,add:true,edit:true,delete:true,export:true},
     products:{view:true,add:true,edit:true,delete:true,export:true}, invoices:{view:true,add:true,edit:true,cancel:true,delete:true,export:true,viewTotals:true,editPrice:true},
     collections:{view:true,add:true,edit:true,delete:true,export:true,viewTotals:true}, wallet:{view:true,add:true,delete:true,viewTotals:true},
-    factoryPayments:{view:true,add:true,edit:true,delete:true,viewTotals:true}, officeIncoming:{view:true,add:true,edit:true,delete:true,viewTotals:true},
-    officeOutgoing:{view:true,add:true,edit:true,delete:true,viewTotals:true}, profits:{view:true}, reports:{view:true}, activityLog:{view:true},
-    employeeReport:{view:true}, orderTracking:{view:true,edit:true,export:true}, writeoffs:{view:true,add:true,delete:true,export:true,viewTotals:true}, agentDiscountRates:{view:true,add:true,edit:true,delete:true}, settings:{view:true}
+    factoryPayments:{view:true,add:true,edit:true,delete:true,viewTotals:true},
+    profits:{view:true}, reports:{view:true}, activityLog:{view:true},
+    employeeReport:{view:true}, writeoffs:{view:true,add:true,delete:true,export:true,viewTotals:true}, agentDiscountRates:{view:true,add:true,edit:true,delete:true},
+    branches:{view:true,add:true,edit:true,delete:true}, help:{view:true}, settings:{view:true}
   },
   manager: {
     dashboard:{view:true}, customers:{view:true,add:true,edit:true,delete:false,export:true},
     products:{view:true,add:false,edit:false,delete:false,export:true}, invoices:{view:true,add:true,edit:true,cancel:true,delete:false,export:true,viewTotals:true,editPrice:true},
     collections:{view:true,add:true,edit:true,delete:false,export:true,viewTotals:true}, wallet:{view:true,add:true,delete:false,viewTotals:true},
-    factoryPayments:{view:true,add:true,edit:true,delete:false,viewTotals:true}, officeIncoming:{view:true,add:true,edit:true,delete:false,viewTotals:true},
-    officeOutgoing:{view:true,add:true,edit:true,delete:false,viewTotals:true}, profits:{view:true}, reports:{view:true}, activityLog:{view:true},
-    employeeReport:{view:true}, orderTracking:{view:true,edit:true,export:true}, writeoffs:{view:true,add:true,delete:false,export:true,viewTotals:true}, agentDiscountRates:{view:true,add:true,edit:true,delete:false}, settings:{view:true}
+    factoryPayments:{view:true,add:true,edit:true,delete:false,viewTotals:true},
+    profits:{view:true}, reports:{view:true}, activityLog:{view:true},
+    employeeReport:{view:true}, writeoffs:{view:true,add:true,delete:false,export:true,viewTotals:true}, agentDiscountRates:{view:true,add:true,edit:true,delete:false},
+    branches:{view:true,add:true,edit:true,delete:false}, help:{view:true}, settings:{view:true}
   },
   sales: {
     dashboard:{view:true}, customers:{view:true,add:true,edit:true,delete:false,export:false},
     products:{view:true,add:false,edit:false,delete:false,export:false}, invoices:{view:true,add:true,edit:true,cancel:false,delete:false,export:false,editPrice:false},
-    collections:{view:true,add:true,edit:false,delete:false,export:false}
+    collections:{view:true,add:true,edit:false,delete:false,export:false}, help:{view:true}
   },
   collector: {
     dashboard:{view:true}, customers:{view:true,add:false,edit:false,delete:false,export:false},
     collections:{view:true,add:true,edit:false,delete:false,export:false},
-    officeIncoming:{view:true,add:true,edit:false,delete:false},
-    wallet:{view:true,add:false,edit:false,delete:false}
+    wallet:{view:true,add:false,edit:false,delete:false},
+    help:{view:true}
   }
 };
 
@@ -2113,7 +2104,8 @@ function renderPage(page) {
     officeIncoming:renderOfficeIncoming, profits:renderProfits, reports:renderReports,
     activityLog:renderActivityLog, employeeReport:renderEmployeeReport, orderTracking:renderOrderTracking,
     writeoffs:renderWriteoffs, settings:renderSettings,
-    agentDiscountRates:renderAgentDiscountRates
+    agentDiscountRates:renderAgentDiscountRates,
+    branches:renderBranches, help:renderHelp
   };
   if (funcs[page]) funcs[page](); else document.getElementById('page-content').innerHTML='<p>الصفحة غير موجودة</p>';
 }
@@ -4261,9 +4253,9 @@ function renderFactoryPayments() {
   const methodOpts = '<option value="">كل طرق الدفع</option>'+methods.map(m=>'<option value="'+m.value+'" '+(methodF===m.value?'selected':'')+'>'+m.label+'</option>').join('');
   let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:20px;">'
     +(openingBalance>0?'<div class="stat-card" style="border-right-color:#f59e0b"><div style="font-size:0.8rem;color:#6b7280;">رصيد افتتاحي (أول المدة)</div><div style="font-size:1.1rem;font-weight:700;color:#f59e0b;">'+formatCurrency(openingBalance)+'</div></div>':'')
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">إجمالي قيمة المشتريات (سعر مصنع)</div><div style="font-size:1.1rem;font-weight:700;">'+formatCurrency(totalInvoicesFactory)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.8rem;color:#6b7280;">إجمالي المدفوع للمصنع</div><div style="font-size:1.1rem;font-weight:700;color:#10b981;">'+formatCurrency(totalPaid)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.8rem;color:#6b7280;">صافي المديونية للمصنع</div><div style="font-size:1.2rem;font-weight:700;color:'+(remaining>0?'#ef4444':'#10b981')+';">'+formatCurrency(remaining)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">إجمالي قيمة المشتريات (سعر التكلفة)</div><div style="font-size:1.1rem;font-weight:700;">'+formatCurrency(totalInvoicesFactory)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.8rem;color:#6b7280;">إجمالي المدفوع للموردين</div><div style="font-size:1.1rem;font-weight:700;color:#10b981;">'+formatCurrency(totalPaid)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.8rem;color:#6b7280;">مديونية الموردين</div><div style="font-size:1.2rem;font-weight:700;color:'+(remaining>0?'#ef4444':'#10b981')+';">'+formatCurrency(remaining)+'</div></div>'
     +'</div>'
     +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">'
     +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
@@ -4320,7 +4312,7 @@ function openFactoryPaymentModal(id) {
   const methodOpts = getPaymentMethodOptions(pay?.method||'bank');
   showModal('<div style="padding:24px;">'
     +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'
-    +'<h3 style="font-size:1.1rem;font-weight:700;">'+(pay?'تعديل الدفعة':'تسجيل دفعة للمصنع')+'</h3>'
+    +'<h3 style="font-size:1.1rem;font-weight:700;">'+(pay?'تعديل الدفعة':'تسجيل دفعة للمورد')+'</h3>'
     +'<button onclick="closeModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#6b7280;">×</button>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'
@@ -4353,7 +4345,7 @@ async function saveFactoryPayment(id) {
   await dbSave('factory_payments', record);
   appState.factoryPayments = await dbGet('factory_payments');
   closeModal();
-  logActivity(id ? 'تعديل دفعة مصنع' : 'إضافة دفعة مصنع', 'دفعات للمصنع', (id?'تعديل':'إضافة')+' دفعة بمبلغ '+formatCurrency(amount));
+  logActivity(id ? 'تعديل دفعة مورد' : 'إضافة دفعة مورد', 'دفعات الموردين', (id?'تعديل':'إضافة')+' دفعة بمبلغ '+formatCurrency(amount));
   showToast(id?'تم تحديث الدفعة':'تم تسجيل الدفعة بنجاح','success');
   renderFactoryPayments();
 }
@@ -4362,90 +4354,19 @@ function deleteFactoryPayment(id) {
     const pay = appState.factoryPayments.find(p=>p.id===id);
     await dbDelete('factory_payments', id);
     appState.factoryPayments = await dbGet('factory_payments');
-    const details = pay ? 'حذف دفعة مصنع: '+formatCurrency(pay.amount)+(pay.date?' بتاريخ '+pay.date:'')+(pay.notes?' - '+pay.notes:'') : 'حذف سجل (غير موجود): '+id;
-    logActivity('حذف دفعة مصنع', 'دفعات للمصنع', details);
+    const details = pay ? 'حذف دفعة مورد: '+formatCurrency(pay.amount)+(pay.date?' بتاريخ '+pay.date:'')+(pay.notes?' - '+pay.notes:'') : 'حذف سجل (غير موجود): '+id;
+    logActivity('حذف دفعة مورد', 'دفعات الموردين', details);
     showToast('تم حذف الدفعة','success');
     renderFactoryPayments();
   });
 }
 
-// ==================== OFFICE OUTGOING (صادر المكتب) ====================
+// ==================== OFFICE OUTGOING (صادر المكتب - محذوف) ====================
 function renderOfficePayments() {
-  const totalPaid = appState.officePayments.reduce((s,p)=>s+(p.amount||0),0);
-  const now = new Date();
-  const thisMonth = now.getMonth(), thisYear = now.getFullYear();
-  const monthPaid = appState.officePayments.filter(p=>{ const d=new Date(p.date); return d.getMonth()===thisMonth && d.getFullYear()===thisYear; }).reduce((s,p)=>s+(p.amount||0),0);
-  let payments = [...appState.officePayments];
-  const q = appState.filters.officePayments.toLowerCase();
-  const opCatF = appState.filters.officePaymentsCategory || '';
-  const opFromF = appState.filters.officePaymentsFrom || '';
-  const opToF = appState.filters.officePaymentsTo || '';
-  if (q) payments = payments.filter(p=>(p.notes||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
-  if (opCatF) payments = payments.filter(p=>(p.category||'') === opCatF);
-  if (opFromF) payments = payments.filter(p=>p.date && p.date >= opFromF);
-  if (opToF) payments = payments.filter(p=>p.date && p.date <= opToF);
-  const srtOP = appState.sort.officePayments;
-  if (srtOP.col) payments = sortBy(payments, srtOP.col, srtOP.dir);
-  else payments = payments.sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const total = payments.length;
-  const page = appState.pagination.officePayments;
-  const paged = paginate(payments, page, appState.pageSize);
-  const opCats = ['إيجار مكتب','رواتب موظفين','مصروفات تشغيل','فواتير كهرباء/مياه','مصروفات شحن','مستلزمات مكتبية','صيانة','مصروف سداد دين','أخرى'];
-  const opCatOpts = '<option value="">كل الفئات</option>'+opCats.map(c=>'<option value="'+c+'" '+(opCatF===c?'selected':'')+'>'+c+'</option>').join('');
-  let html = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">'
-    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.8rem;color:#6b7280;">إجمالي الصادر (المصروفات)</div><div style="font-size:1.1rem;font-weight:700;color:#ef4444;">'+formatCurrency(totalPaid)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#f59e0b"><div style="font-size:0.8rem;color:#6b7280;">مصروفات هذا الشهر</div><div style="font-size:1.1rem;font-weight:700;color:#f59e0b;">'+formatCurrency(monthPaid)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">عدد الحركات</div><div style="font-size:1.1rem;font-weight:700;">'+appState.officePayments.length+'</div></div>'
-    +'</div>'
-    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">'
-    +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
-    +'<input type="text" id="search-office-payments" placeholder="بحث بالفئة أو الملاحظات..." class="form-input" style="max-width:260px;" value="'+escHtml(appState.filters.officePayments)+'" oninput="appState.filters.officePayments=this.value;appState.pagination.officePayments=1;renderOfficePayments()">'
-    +'<select class="form-input" style="max-width:170px;" onchange="appState.filters.officePaymentsCategory=this.value;appState.pagination.officePayments=1;renderOfficePayments()">'+opCatOpts+'</select>'
-    +'<label style="font-size:0.85rem;color:#6b7280;white-space:nowrap;">من:</label>'
-    +'<input type="date" class="form-input" style="max-width:150px;" value="'+escHtml(opFromF)+'" onchange="appState.filters.officePaymentsFrom=this.value;appState.pagination.officePayments=1;renderOfficePayments()">'
-    +'<label style="font-size:0.85rem;color:#6b7280;white-space:nowrap;">إلى:</label>'
-    +'<input type="date" class="form-input" style="max-width:150px;" value="'+escHtml(opToF)+'" onchange="appState.filters.officePaymentsTo=this.value;appState.pagination.officePayments=1;renderOfficePayments()">'
-    +((appState.filters.officePayments||appState.filters.officePaymentsCategory||opFromF||opToF)?'<button onclick="resetPageFilters(\'officeOutgoing\')" class="btn-reset" title="مسح البحث والتصفية"><i class="fas fa-times"></i> إعادة تعيين</button>':'')
-    +'</div>'
-    +(canDo('officeOutgoing','add')?'<button onclick="openOfficePaymentModal()" class="btn-danger"><i class="fas fa-plus me-1"></i> تسجيل مصروف / صادر</button>':'')
-    +'</div>';
-  if (canDo('officeOutgoing','viewTotals')) {
-    const filtTotal = payments.reduce((s,p)=>s+(p.amount||0),0);
-    const pageTotal = paged.reduce((s,p)=>s+(p.amount||0),0);
-    html += '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">'
-      +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px 14px;background:#fff1f2;border-radius:10px;border:1px solid #fecdd3;">'
-      +'<span style="font-size:0.85rem;color:#374151;font-weight:600;display:flex;align-items:center;gap:4px;"><i class="fas fa-layer-group" style="color:#ef4444;"></i> إجمالي النتائج:</span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">إجمالي المصروفات: <b style="color:#ef4444;">'+formatCurrency(filtTotal)+'</b></span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">عدد السجلات: <b style="color:#374151;">'+payments.length+'</b></span>'
-      +'</div>'
-      +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px 14px;background:#fee2e2;border-radius:10px;border:1px solid #fca5a5;">'
-      +'<span style="font-size:0.85rem;color:#374151;font-weight:600;display:flex;align-items:center;gap:4px;"><i class="fas fa-arrow-circle-up" style="color:#dc2626;"></i> إجمالي الصفحة الحالية:</span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">إجمالي المصروفات: <b style="color:#ef4444;">'+formatCurrency(pageTotal)+'</b></span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">عدد السجلات: <b style="color:#374151;">'+paged.length+'</b></span>'
-      +'</div>'
-      +'</div>';
-  }
-  html += '<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
-    +'<table class="table-hover"><thead><tr>'
-    +thSort('officePayments','date','التاريخ')+thSort('officePayments','category','الفئة')+thSort('officePayments','amount','المبلغ')+thSort('officePayments','method','طريقة الدفع')+thSort('officePayments','reference','المرجع')+'<th>ملاحظات</th><th>إجراءات</th>'
-    +'</tr></thead><tbody>';
-  paged.forEach(p=>{
-    html += '<tr>'
-      +'<td>'+formatDate(p.date)+'</td>'
-      +'<td><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:12px;font-size:0.8rem;">'+escHtml(p.category||'-')+'</span></td>'
-      +'<td style="font-weight:700;color:#ef4444;">'+formatCurrency(p.amount)+'</td>'
-      +'<td>'+getMethodBadge(p.method)+'</td>'
-      +'<td style="font-family:monospace;font-size:0.85rem;">'+(escHtml(p.reference)||'-')+'</td>'
-      +'<td style="font-size:0.85rem;color:#6b7280;">'+(escHtml(p.notes)||'-')+'</td>'
-      +'<td style="white-space:nowrap;">'
-      +(canDo('officeOutgoing','edit')?'<button onclick="openOfficePaymentModal(\''+p.id+'\')" style="background:#fef3c7;color:#92400e;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:4px;"><i class="fas fa-edit"></i></button>':'')
-      +(canDo('officeOutgoing','delete')?'<button onclick="deleteOfficePayment(\''+p.id+'\')" style="background:#fee2e2;color:#991b1b;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;"><i class="fas fa-trash"></i></button>':'')
-      +'</td></tr>';
-  });
-  html += '</tbody></table></div>'+renderPagination(total, page, appState.pageSize, 'changeOfficePaymentPage')+'</div>';
-  setPageContent(html, 'search-office-payments');
+  // هذه الصفحة تم إزالتها من نظام توزيع المواد الغذائية
 }
-function changeOfficePaymentPage(p) { appState.pagination.officePayments=p; renderOfficePayments(); }
+function changeOfficePaymentPage(p) { /* removed */ }
+function changeOfficePaymentPage(p) { /* removed */ }
 
 function openOfficePaymentModal(id) {
   const pay = id ? appState.officePayments.find(p=>p.id===id) : null;
@@ -4541,83 +4462,11 @@ function deleteOfficePayment(id) {
   });
 }
 
-// ==================== OFFICE INCOMING (وارد المكتب) ====================
+// ==================== OFFICE INCOMING (وارد المكتب - محذوف) ====================
 function renderOfficeIncoming() {
-  const totalIn = appState.officeIncoming.reduce((s,p)=>s+(p.amount||0),0);
-  const now = new Date();
-  const thisMonth = now.getMonth(), thisYear = now.getFullYear();
-  const monthIn = appState.officeIncoming.filter(p=>{ const d=new Date(p.date); return d.getMonth()===thisMonth && d.getFullYear()===thisYear; }).reduce((s,p)=>s+(p.amount||0),0);
-  let entries = [...appState.officeIncoming];
-  const q = appState.filters.officeIncoming.toLowerCase();
-  const oiCatF = appState.filters.officeIncomingCategory || '';
-  const oiFromF = appState.filters.officeIncomingFrom || '';
-  const oiToF = appState.filters.officeIncomingTo || '';
-  if (q) entries = entries.filter(p=>(p.notes||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
-  if (oiCatF) entries = entries.filter(p=>(p.category||'') === oiCatF);
-  if (oiFromF) entries = entries.filter(p=>p.date && p.date >= oiFromF);
-  if (oiToF) entries = entries.filter(p=>p.date && p.date <= oiToF);
-  const srtOI = appState.sort.officeIncoming;
-  if (srtOI.col) entries = sortBy(entries, srtOI.col, srtOI.dir);
-  else entries = entries.sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const total = entries.length;
-  const page = appState.pagination.officeIncoming;
-  const paged = paginate(entries, page, appState.pageSize);
-  const oiCats = ['تحصيل نقدي من عميل','تحويل بنكي من عميل','استلام فودافون كاش','عمولة بيع','استرداد مبلغ','إيداع من المدير','دخل متنوع','أخرى'];
-  const oiCatOpts = '<option value="">كل الفئات</option>'+oiCats.map(c=>'<option value="'+c+'" '+(oiCatF===c?'selected':'')+'>'+c+'</option>').join('');
-  let html = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">'
-    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.8rem;color:#6b7280;">إجمالي الوارد (الدخل)</div><div style="font-size:1.1rem;font-weight:700;color:#10b981;">'+formatCurrency(totalIn)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#5D5CDE"><div style="font-size:0.8rem;color:#6b7280;">وارد هذا الشهر</div><div style="font-size:1.1rem;font-weight:700;color:#5D5CDE;">'+formatCurrency(monthIn)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">عدد الحركات</div><div style="font-size:1.1rem;font-weight:700;">'+appState.officeIncoming.length+'</div></div>'
-    +'</div>'
-    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">'
-    +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
-    +'<input type="text" id="search-office-incoming" placeholder="بحث بالفئة أو الملاحظات..." class="form-input" style="max-width:260px;" value="'+escHtml(appState.filters.officeIncoming)+'" oninput="appState.filters.officeIncoming=this.value;appState.pagination.officeIncoming=1;renderOfficeIncoming()">'
-    +'<select class="form-input" style="max-width:170px;" onchange="appState.filters.officeIncomingCategory=this.value;appState.pagination.officeIncoming=1;renderOfficeIncoming()">'+oiCatOpts+'</select>'
-    +'<label style="font-size:0.85rem;color:#6b7280;white-space:nowrap;">من:</label>'
-    +'<input type="date" class="form-input" style="max-width:150px;" value="'+escHtml(oiFromF)+'" onchange="appState.filters.officeIncomingFrom=this.value;appState.pagination.officeIncoming=1;renderOfficeIncoming()">'
-    +'<label style="font-size:0.85rem;color:#6b7280;white-space:nowrap;">إلى:</label>'
-    +'<input type="date" class="form-input" style="max-width:150px;" value="'+escHtml(oiToF)+'" onchange="appState.filters.officeIncomingTo=this.value;appState.pagination.officeIncoming=1;renderOfficeIncoming()">'
-    +((appState.filters.officeIncoming||appState.filters.officeIncomingCategory||oiFromF||oiToF)?'<button onclick="resetPageFilters(\'officeIncoming\')" class="btn-reset" title="مسح البحث والتصفية"><i class="fas fa-times"></i> إعادة تعيين</button>':'')
-    +'</div>'
-    +(canDo('officeIncoming','add')?'<button onclick="openOfficeIncomingModal()" class="btn-success"><i class="fas fa-plus me-1"></i> تسجيل وارد / دخل جديد</button>':'')
-    +'</div>';
-  if (canDo('officeIncoming','viewTotals')) {
-    const filtTotal = entries.reduce((s,p)=>s+(p.amount||0),0);
-    const pageTotal = paged.reduce((s,p)=>s+(p.amount||0),0);
-    html += '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">'
-      +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px 14px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;">'
-      +'<span style="font-size:0.85rem;color:#374151;font-weight:600;display:flex;align-items:center;gap:4px;"><i class="fas fa-layer-group" style="color:#10b981;"></i> إجمالي النتائج:</span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">إجمالي الوارد: <b style="color:#10b981;">'+formatCurrency(filtTotal)+'</b></span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">عدد السجلات: <b style="color:#374151;">'+entries.length+'</b></span>'
-      +'</div>'
-      +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px 14px;background:#dcfce7;border-radius:10px;border:1px solid #86efac;">'
-      +'<span style="font-size:0.85rem;color:#374151;font-weight:600;display:flex;align-items:center;gap:4px;"><i class="fas fa-arrow-circle-down" style="color:#16a34a;"></i> إجمالي الصفحة الحالية:</span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">إجمالي الوارد: <b style="color:#10b981;">'+formatCurrency(pageTotal)+'</b></span>'
-      +'<span style="font-size:0.85rem;color:#6b7280;">عدد السجلات: <b style="color:#374151;">'+paged.length+'</b></span>'
-      +'</div>'
-      +'</div>';
-  }
-  html += '<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
-    +'<table class="table-hover"><thead><tr>'
-    +thSort('officeIncoming','date','التاريخ')+thSort('officeIncoming','category','الفئة')+thSort('officeIncoming','amount','المبلغ')+thSort('officeIncoming','method','طريقة الدفع')+thSort('officeIncoming','reference','المرجع')+'<th>ملاحظات</th><th>إجراءات</th>'
-    +'</tr></thead><tbody>';
-  paged.forEach(p=>{
-    html += '<tr>'
-      +'<td>'+formatDate(p.date)+'</td>'
-      +'<td><span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:0.8rem;">'+escHtml(p.category||'-')+'</span></td>'
-      +'<td style="font-weight:700;color:#10b981;">'+formatCurrency(p.amount)+'</td>'
-      +'<td>'+getMethodBadge(p.method)+'</td>'
-      +'<td style="font-family:monospace;font-size:0.85rem;">'+(escHtml(p.reference)||'-')+'</td>'
-      +'<td style="font-size:0.85rem;color:#6b7280;">'+(escHtml(p.notes)||'-')+'</td>'
-      +'<td style="white-space:nowrap;">'
-      +(canDo('officeIncoming','edit')?'<button onclick="openOfficeIncomingModal(\''+p.id+'\')" style="background:#fef3c7;color:#92400e;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:4px;"><i class="fas fa-edit"></i></button>':'')
-      +(canDo('officeIncoming','delete')?'<button onclick="deleteOfficeIncoming(\''+p.id+'\')" style="background:#fee2e2;color:#991b1b;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;"><i class="fas fa-trash"></i></button>':'')
-      +'</td></tr>';
-  });
-  html += '</tbody></table></div>'+renderPagination(total, page, appState.pageSize, 'changeOfficeIncomingPage')+'</div>';
-  setPageContent(html, 'search-office-incoming');
+  // هذه الصفحة تم إزالتها من نظام توزيع المواد الغذائية
 }
-function changeOfficeIncomingPage(p) { appState.pagination.officeIncoming=p; renderOfficeIncoming(); }
+function changeOfficeIncomingPage(p) { /* removed */ }
 
 function openOfficeIncomingModal(id) {
   const entry = id ? appState.officeIncoming.find(p=>p.id===id) : null;
@@ -4680,7 +4529,7 @@ function deleteOfficeIncoming(id) {
 
 // ==================== PROFITS (الأرباح) ====================
 let profitsTab = 'overview';
-// ==================== نسب خصم الوكيل من المصنع ====================
+// ==================== نسب الشركاء ====================
 function renderAgentDiscountRates() {
   if (!canDo('agentDiscountRates','view')) {
     document.getElementById('page-content').innerHTML='<div class="card" style="text-align:center;padding:40px;"><i class="fas fa-lock" style="font-size:48px;color:#d1d5db;"></i><p style="margin-top:16px;color:#6b7280;">ليس لديك صلاحية الوصول لهذه الصفحة</p></div>';
@@ -4692,18 +4541,18 @@ function renderAgentDiscountRates() {
   const rates = [...(appState.agentDiscountRates||[])].sort((a,b)=>a.date_from.localeCompare(b.date_from));
   let html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">'
     +'<div></div>'
-    +(canAdd?'<button onclick="openAgentDiscountRateModal()" class="btn-primary"><i class="fas fa-plus me-1"></i> إضافة نسبة خصم</button>':'')
+    +(canAdd?'<button onclick="openAgentDiscountRateModal()" class="btn-primary"><i class="fas fa-plus me-1"></i> إضافة نسبة شريك</button>':'')
     +'</div>'
     +'<div style="background:#eff6ff;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:0.88rem;color:#1e40af;">'
     +'<i class="fas fa-info-circle me-1"></i> '
-    +'كل حركة تحدد نسبة خصم الوكيل من المصنع لفترة زمنية معينة وتصنيف عميل محدد (أو "الكل"). يُستخدم هذا الخصم لحساب أرباح الفواتير. لا يمكن تسجيل حركتين بفترتين متداخلتين لنفس تصنيف العميل.'
+    +'نسبة مشاركة كل شريك في الأرباح لفترة زمنية معينة وتصنيف عميل محدد (أو "الكل"). يُستخدم هذا في حساب أرباح الفواتير. لا يمكن تسجيل حركتين بفترتين متداخلتين لنفس تصنيف العميل.'
     +'</div>';
   if (!rates.length) {
-    html += '<div class="card" style="text-align:center;padding:40px;color:#9ca3af;"><i class="fas fa-percent" style="font-size:48px;margin-bottom:12px;"></i><p>لا توجد نسب خصم مسجّلة بعد</p></div>';
+    html += '<div class="card" style="text-align:center;padding:40px;color:#9ca3af;"><i class="fas fa-percent" style="font-size:48px;margin-bottom:12px;"></i><p>لا توجد نسب شركاء مسجّلة بعد</p></div>';
   } else {
     html += '<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
       +'<table class="table-hover"><thead><tr>'
-      +'<th>نسبة الخصم %</th><th>من تاريخ</th><th>إلى تاريخ</th><th>تصنيف العميل</th><th>ملاحظات</th><th>إجراءات</th>'
+      +'<th>نسبة المشاركة %</th><th>من تاريخ</th><th>إلى تاريخ</th><th>تصنيف العميل</th><th>ملاحظات</th><th>إجراءات</th>'
       +'</tr></thead><tbody>';
     rates.forEach(r=>{
       html += '<tr>'
@@ -4724,7 +4573,7 @@ function renderAgentDiscountRates() {
 
 function openAgentDiscountRateModal(editId) {
   const existing = editId ? (appState.agentDiscountRates||[]).find(r=>r.id===editId) : null;
-  const title = existing ? 'تعديل نسبة الخصم' : 'إضافة نسبة خصم جديدة';
+  const title = existing ? 'تعديل نسبة الشريك' : 'إضافة نسبة شريك جديدة';
   const custCats = appState.settings.customerCategories || ['أهالي','هيئات','مشاريع','محلات','صنايعية','مقاولين'];
   const catOptions = '<option value="">الكل (جميع التصنيفات)</option>'
     + custCats.map(cat=>'<option value="'+escHtml(cat)+'"'+(existing&&existing.customer_category===cat?' selected':'')+'>'+escHtml(cat)+'</option>').join('');
@@ -4735,7 +4584,7 @@ function openAgentDiscountRateModal(editId) {
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'
     +'<div class="input-group" style="grid-column:1/-1;">'
-    +'<label class="form-label">نسبة الخصم (%) *</label>'
+    +'<label class="form-label">نسبة المشاركة (%) *</label>'
     +'<input id="adr-pct" type="number" class="form-input" step="0.01" min="0" max="100" placeholder="مثال: 13" value="'+(existing?existing.discount_pct:'')+'">'
     +'</div>'
     +'<div class="input-group">'
@@ -4770,9 +4619,9 @@ async function saveAgentDiscountRate(editId) {
   const custCat = document.getElementById('adr-cat')?.value||'';
   const errEl = document.getElementById('adr-err');
   errEl.style.display='none';
-  if (!pctRaw || pctRaw==='') { errEl.style.display='block'; errEl.textContent='يرجى إدخال نسبة الخصم'; return; }
+  if (!pctRaw || pctRaw==='') { errEl.style.display='block'; errEl.textContent='يرجى إدخال نسبة المشاركة'; return; }
   const pct = parseFloat(pctRaw);
-  if (isNaN(pct) || pct < 0 || pct > 100) { errEl.style.display='block'; errEl.textContent='نسبة الخصم يجب أن تكون بين 0 و 100'; return; }
+  if (isNaN(pct) || pct < 0 || pct > 100) { errEl.style.display='block'; errEl.textContent='نسبة المشاركة يجب أن تكون بين 0 و 100'; return; }
   if (!dateFrom) { errEl.style.display='block'; errEl.textContent='يرجى اختيار تاريخ البداية'; return; }
   if (!dateTo) { errEl.style.display='block'; errEl.textContent='يرجى اختيار تاريخ النهاية'; return; }
   if (dateTo < dateFrom) { errEl.style.display='block'; errEl.textContent='تاريخ النهاية يجب أن يكون بعد تاريخ البداية'; return; }
@@ -4797,9 +4646,9 @@ async function saveAgentDiscountRate(editId) {
   appState.agentDiscountRates = await dbGet('agent_discount_rates');
   closeModal();
   const catLabel = custCat ? ' ('+custCat+')' : ' (الكل)';
-  const action = editId ? 'تعديل نسبة خصم وكيل' : 'إضافة نسبة خصم وكيل';
-  logActivity(action, 'نسب خصم الوكيل', 'نسبة '+pct+'%'+catLabel+' من '+formatDate(dateFrom)+' إلى '+formatDate(dateTo));
-  showToast(editId ? 'تم تعديل نسبة الخصم بنجاح' : 'تمت إضافة نسبة الخصم بنجاح', 'success');
+  const action = editId ? 'تعديل نسبة شريك' : 'إضافة نسبة شريك';
+  logActivity(action, 'نسب الشركاء', 'نسبة '+pct+'%'+catLabel+' من '+formatDate(dateFrom)+' إلى '+formatDate(dateTo));
+  showToast(editId ? 'تم تعديل نسبة الشريك بنجاح' : 'تمت إضافة نسبة الشريك بنجاح', 'success');
   renderAgentDiscountRates();
 }
 
@@ -4808,8 +4657,8 @@ function deleteAgentDiscountRate(id) {
   showConfirm('هل تريد حذف هذه النسبة؟ سيؤدي ذلك إلى عدم احتساب الأرباح للفواتير في هذه الفترة.', async function(){
     await dbDelete('agent_discount_rates', id);
     appState.agentDiscountRates = await dbGet('agent_discount_rates');
-    logActivity('حذف نسبة خصم وكيل', 'نسب خصم الوكيل', r ? 'نسبة '+r.discount_pct+'% من '+formatDate(r.date_from)+' إلى '+formatDate(r.date_to) : 'حذف سجل: '+id);
-    showToast('تم حذف نسبة الخصم بنجاح', 'success');
+    logActivity('حذف نسبة شريك', 'نسب الشركاء', r ? 'نسبة '+r.discount_pct+'% من '+formatDate(r.date_from)+' إلى '+formatDate(r.date_to) : 'حذف سجل: '+id);
+    showToast('تم حذف نسبة الشريك بنجاح', 'success');
     renderAgentDiscountRates();
   });
 }
@@ -4825,9 +4674,9 @@ function renderProfits() {
     +'<button class="tab-btn '+(profitsTab==='byCustomer'?'active':'')+'" onclick="setProfitsTab(\'byCustomer\')"><i class="fas fa-users me-1"></i> أرباح العملاء</button>'
     +'</div>'
     +'<div style="background:#d1fae5;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:0.9rem;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">'
-    +'<span><i class="fas fa-info-circle" style="color:#059669;margin-left:6px;"></i><strong>الأرباح محسوبة حسب نسب خصم الوكيل المسجّلة للفترة</strong></span>'
-    +'<button onclick="navigate(\'agentDiscountRates\')" style="background:#059669;color:white;border:none;padding:4px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-family:inherit;"><i class="fas fa-percent me-1"></i> إدارة نسب الخصم</button>'
-    +'<span><strong>هامش الربح = خصم الوكيل - خصم العميل</strong></span>'
+    +'<span><i class="fas fa-info-circle" style="color:#059669;margin-left:6px;"></i><strong>الأرباح محسوبة بناءً على سعر التكلفة وهامش الربح لكل منتج</strong></span>'
+    +'<button onclick="navigate(\'agentDiscountRates\')" style="background:#059669;color:white;border:none;padding:4px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-family:inherit;"><i class="fas fa-percent me-1"></i> إدارة نسب الشركاء</button>'
+    +'<span><strong>هامش الربح = سعر البيع - سعر التكلفة</strong></span>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;margin-bottom:16px;align-items:flex-end;">'
     +'<div><label class="form-label">من تاريخ</label><input id="profit-from" type="date" class="form-input" value="'+defaultFrom+'"></div>'
@@ -4882,7 +4731,7 @@ function renderProfitsContent() {
   const profitMarginPct = totalNetSales > 0 ? (totalProfit/totalNetSales*100).toFixed(1) : 0;
   const summaryHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:20px;">'
     +'<div class="stat-card" style="border-right-color:#5D5CDE"><div style="font-size:0.8rem;color:#6b7280;">إجمالي المبيعات</div><div style="font-size:1.1rem;font-weight:700;color:#5D5CDE;">'+formatCurrency(totalNetSales)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">تكلفة المصنع</div><div style="font-size:1.1rem;font-weight:700;">'+formatCurrency(totalFactoryCost)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.8rem;color:#6b7280;">تكلفة البضاعة</div><div style="font-size:1.1rem;font-weight:700;">'+formatCurrency(totalFactoryCost)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.8rem;color:#6b7280;">صافي الأرباح</div><div style="font-size:1.3rem;font-weight:700;color:#10b981;">'+formatCurrency(totalProfit)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#f59e0b"><div style="font-size:0.8rem;color:#6b7280;">نسبة هامش الربح</div><div style="font-size:1.3rem;font-weight:700;color:#f59e0b;">'+profitMarginPct+'%</div></div>'
     +'<div class="stat-card" style="border-right-color:#8b5cf6"><div style="font-size:0.8rem;color:#6b7280;">عدد الفواتير</div><div style="font-size:1.1rem;font-weight:700;color:#8b5cf6;">'+activeInvoices.length+'</div></div>'
@@ -4915,7 +4764,7 @@ function renderProfitsContent() {
         type:'bar',
         data:{ labels, datasets:[
           {label:'صافي المبيعات', data:labels.map(l=>months[l].sales), backgroundColor:'rgba(93,92,222,0.7)'},
-          {label:'تكلفة المصنع', data:labels.map(l=>months[l].factory), backgroundColor:'rgba(239,68,68,0.5)'},
+          {label:'تكلفة البضاعة', data:labels.map(l=>months[l].factory), backgroundColor:'rgba(239,68,68,0.5)'},
           {label:'الأرباح', data:labels.map(l=>months[l].profit), backgroundColor:'rgba(16,185,129,0.8)'}
         ]},
         options:{responsive:true, plugins:{legend:{labels:{color:legendColor}}}, scales:{y:{beginAtZero:true, ticks:{color:tickColor}, grid:{color:gridColor}}, x:{ticks:{color:tickColor}, grid:{color:gridColor}}}}
@@ -4949,8 +4798,8 @@ function renderProfitsContent() {
       +'<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
       +'<table class="table-hover"><thead><tr>'
       +'<th>رقم الفاتورة</th><th>التاريخ</th><th>العميل</th><th>خصم العميل</th>'
-      +'<th>صافي المبيعات</th><th>تكلفة المصنع</th><th>الربح</th><th>هامش الربح%</th>'
-      +'<th>هامش الوكيل-العميل%</th>'
+      +'<th>صافي المبيعات</th><th>تكلفة البضاعة</th><th>الربح</th><th>هامش الربح%</th>'
+      +'<th>هامش الربح الصافي%</th>'
       +'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
   } else if (profitsTab === 'byCustomer') {
     const custMap = {};
@@ -4977,7 +4826,7 @@ function renderProfitsContent() {
     el.innerHTML = summaryHtml
       +'<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
       +'<table class="table-hover"><thead><tr>'
-      +'<th>العميل</th><th>عدد الفواتير</th><th>إجمالي المبيعات</th><th>تكلفة المصنع</th><th>الربح</th><th>هامش الربح%</th>'
+      +'<th>العميل</th><th>عدد الفواتير</th><th>إجمالي المبيعات</th><th>تكلفة البضاعة</th><th>الربح</th><th>هامش الربح%</th>'
       +'</tr></thead><tbody>'+custRows+'</tbody></table></div></div>';
   }
 }
@@ -4990,7 +4839,7 @@ function renderReports() {
     +'<button class="tab-btn '+(reportsTab==='statement'?'active':'')+'" onclick="setReportsTab(\'statement\')"><i class="fas fa-file-alt me-1"></i> كشف حساب</button>'
     +'<button class="tab-btn '+(reportsTab==='aging'?'active':'')+'" onclick="setReportsTab(\'aging\')"><i class="fas fa-clock me-1"></i> تقادم الديون</button>'
     +'<button class="tab-btn '+(reportsTab==='wallet'?'active':'')+'" onclick="setReportsTab(\'wallet\')"><i class="fas fa-mobile-alt me-1"></i> حركة المحفظة</button>'
-    +(canSeeFactory?'<button class="tab-btn '+(reportsTab==='factory'?'active':'')+'" onclick="setReportsTab(\'factory\')"><i class="fas fa-industry me-1"></i> موقف المصنع</button>':'')
+    +(canSeeFactory?'<button class="tab-btn '+(reportsTab==='factory'?'active':'')+'" onclick="setReportsTab(\'factory\')"><i class="fas fa-truck me-1"></i> موقف الموردين</button>':'')
     +(canSeeFactory?'<button class="tab-btn '+(reportsTab==='financial'?'active':'')+'" onclick="setReportsTab(\'financial\')"><i class="fas fa-chart-line me-1"></i> التقرير المالي الشامل</button>':'')
     +'</div>'
     +'<div id="report-content"></div>';
@@ -5222,12 +5071,12 @@ function renderFactoryReport() {
   const salesData = labels.map(l=>months[l]?.sales||0);
   const factData = labels.map(l=>months[l]?.factory||0);
   document.getElementById('report-content').innerHTML = '<div class="card">'
-    +'<h3 class="section-title">موقف المصنع</h3>'
+    +'<h3 class="section-title">موقف الموردين</h3>'
     +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px;">'
     +(openingBalance>0?'<div class="stat-card" style="border-right-color:#f59e0b"><div style="font-size:0.75rem;color:#6b7280;">رصيد افتتاحي (أول المدة)</div><div style="font-weight:700;font-size:1rem;color:#f59e0b;">'+formatCurrency(openingBalance)+'</div></div>':'')
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.75rem;color:#6b7280;">إجمالي قيمة المصنع</div><div style="font-weight:700;font-size:1rem;">'+formatCurrency(totalFactoryCost)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.75rem;color:#6b7280;">إجمالي قيمة البضاعة</div><div style="font-weight:700;font-size:1rem;">'+formatCurrency(totalFactoryCost)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.75rem;color:#6b7280;">إجمالي المدفوع</div><div style="font-weight:700;font-size:1rem;color:#10b981;">'+formatCurrency(totalPaid)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">صافي المديونية للمصنع</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(remaining)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">مديونية الموردين</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(remaining)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#5D5CDE"><div style="font-size:0.75rem;color:#6b7280;">إجمالي الأرباح</div><div style="font-weight:700;font-size:1rem;color:#5D5CDE;">'+formatCurrency(totalProfit)+'</div></div>'
     +'</div>'
     +'<canvas id="factoryChart" height="100"></canvas>'
@@ -5244,7 +5093,7 @@ function renderFactoryReport() {
       type:'bar',
       data:{ labels, datasets:[
         {label:'المبيعات (صافي)', data:salesData, backgroundColor:'rgba(93,92,222,0.7)'},
-        {label:'سعر المصنع', data:factData, backgroundColor:'rgba(239,68,68,0.5)'}
+        {label:'تكلفة البضاعة', data:factData, backgroundColor:'rgba(239,68,68,0.5)'}
       ]},
       options:{responsive:true, plugins:{legend:{labels:{color:legendColor}}}, scales:{y:{beginAtZero:true, ticks:{color:tickColor}, grid:{color:gridColor}}, x:{ticks:{color:tickColor}, grid:{color:gridColor}}}}
     });
@@ -5260,15 +5109,11 @@ function renderFinancialReport() {
   const totalCustomerDebt = appState.customers.reduce((s,c)=>s+getCustomerBalance(c.id),0);
   const totalFactoryPaid = appState.factoryPayments.reduce((s,p)=>s+(p.amount||0),0);
   const factoryRemaining = getFactoryNetDebt();
-  const totalOfficeIn = appState.officeIncoming.reduce((s,p)=>s+(p.amount||0),0);
-  const totalOfficeOut = appState.officePayments.reduce((s,p)=>s+(p.amount||0),0);
   const walletBalance = getWalletBalance();
   const now = new Date();
   const thisMonth = now.getMonth(), thisYear = now.getFullYear();
   const monthSales = appState.invoices.filter(i=>i.status!=='cancelled'&&new Date(i.date).getMonth()===thisMonth&&new Date(i.date).getFullYear()===thisYear).reduce((s,i)=>s+(i.net_amount||0),0);
   const monthCollections = appState.collections.filter(c=>new Date(c.date).getMonth()===thisMonth&&new Date(c.date).getFullYear()===thisYear).reduce((s,c)=>s+(c.amount||0),0);
-  const monthOfficeIn = appState.officeIncoming.filter(p=>new Date(p.date).getMonth()===thisMonth&&new Date(p.date).getFullYear()===thisYear).reduce((s,p)=>s+(p.amount||0),0);
-  const monthOfficeOut = appState.officePayments.filter(p=>new Date(p.date).getMonth()===thisMonth&&new Date(p.date).getFullYear()===thisYear).reduce((s,p)=>s+(p.amount||0),0);
   document.getElementById('report-content').innerHTML = '<div class="card">'
     +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">'
     +'<h3 class="section-title" style="margin:0;"><i class="fas fa-chart-line me-2" style="color:#5D5CDE;"></i> التقرير المالي الشامل</h3>'
@@ -5277,7 +5122,7 @@ function renderFinancialReport() {
     +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #5D5CDE;padding-bottom:6px;">المبيعات والأرباح (إجمالي)</h4>'
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">'
     +'<div class="stat-card" style="border-right-color:#5D5CDE"><div style="font-size:0.75rem;color:#6b7280;">إجمالي المبيعات</div><div style="font-weight:700;font-size:1rem;color:#5D5CDE;">'+formatCurrency(totalSales)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.75rem;color:#6b7280;">إجمالي تكلفة المصنع</div><div style="font-weight:700;font-size:1rem;">'+formatCurrency(totalFactory)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#6b7280"><div style="font-size:0.75rem;color:#6b7280;">إجمالي تكلفة البضاعة</div><div style="font-weight:700;font-size:1rem;">'+formatCurrency(totalFactory)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.75rem;color:#6b7280;">إجمالي الأرباح</div><div style="font-weight:700;font-size:1rem;color:#10b981;">'+formatCurrency(totalProfit)+'</div></div>'
     +'</div>'
     +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #10b981;padding-bottom:6px;">التحصيلات والمديونيات</h4>'
@@ -5286,24 +5131,16 @@ function renderFinancialReport() {
     +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">إجمالي ديون العملاء</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(totalCustomerDebt)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#f59e0b"><div style="font-size:0.75rem;color:#6b7280;">نسبة التحصيل</div><div style="font-weight:700;font-size:1rem;color:#f59e0b;">'+(totalSales>0?(totalCollections/totalSales*100).toFixed(1):0)+'%</div></div>'
     +'</div>'
-    +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #ef4444;padding-bottom:6px;">المكتب - الوارد والصادر</h4>'
+    +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #8b5cf6;padding-bottom:6px;">الموردون والمحفظة</h4>'
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">'
-    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.75rem;color:#6b7280;">إجمالي الوارد للمكتب</div><div style="font-weight:700;font-size:1rem;color:#10b981;">'+formatCurrency(totalOfficeIn)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">إجمالي الصادر من المكتب</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(totalOfficeOut)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#5D5CDE"><div style="font-size:0.75rem;color:#6b7280;">صافي الوارد - الصادر</div><div style="font-weight:700;font-size:1rem;color:'+(totalOfficeIn-totalOfficeOut>=0?'#5D5CDE':'#ef4444')+';">'+formatCurrency(totalOfficeIn-totalOfficeOut)+'</div></div>'
-    +'</div>'
-    +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #8b5cf6;padding-bottom:6px;">المصنع والمحفظة</h4>'
-    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">'
-    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.75rem;color:#6b7280;">المدفوع للمصنع</div><div style="font-weight:700;font-size:1rem;color:#10b981;">'+formatCurrency(totalFactoryPaid)+'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">المتبقي للمصنع</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(factoryRemaining)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#10b981"><div style="font-size:0.75rem;color:#6b7280;">المدفوع للموردين</div><div style="font-weight:700;font-size:1rem;color:#10b981;">'+formatCurrency(totalFactoryPaid)+'</div></div>'
+    +'<div class="stat-card" style="border-right-color:#ef4444"><div style="font-size:0.75rem;color:#6b7280;">مديونية الموردين</div><div style="font-weight:700;font-size:1rem;color:#ef4444;">'+formatCurrency(factoryRemaining)+'</div></div>'
     +'<div class="stat-card" style="border-right-color:#8b5cf6"><div style="font-size:0.75rem;color:#6b7280;">رصيد المحفظة (فودافون)</div><div style="font-weight:700;font-size:1rem;color:#8b5cf6;">'+formatCurrency(walletBalance)+'</div></div>'
     +'</div>'
     +'<h4 style="font-weight:700;color:#374151;margin-bottom:12px;border-bottom:2px solid #f59e0b;padding-bottom:6px;">هذا الشهر</h4>'
-    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">'
+    +'<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">'
     +'<div style="text-align:center;padding:12px;background:#ede9fe;border-radius:8px;"><div style="font-size:0.75rem;color:#5D5CDE;">مبيعات الشهر</div><div style="font-weight:700;color:#5D5CDE;">'+formatCurrency(monthSales)+'</div></div>'
     +'<div style="text-align:center;padding:12px;background:#d1fae5;border-radius:8px;"><div style="font-size:0.75rem;color:#065f46;">تحصيلات الشهر</div><div style="font-weight:700;color:#10b981;">'+formatCurrency(monthCollections)+'</div></div>'
-    +'<div style="text-align:center;padding:12px;background:#d1fae5;border-radius:8px;"><div style="font-size:0.75rem;color:#065f46;">وارد المكتب (الشهر)</div><div style="font-weight:700;color:#10b981;">'+formatCurrency(monthOfficeIn)+'</div></div>'
-    +'<div style="text-align:center;padding:12px;background:#fee2e2;border-radius:8px;"><div style="font-size:0.75rem;color:#991b1b;">صادر المكتب (الشهر)</div><div style="font-weight:700;color:#ef4444;">'+formatCurrency(monthOfficeOut)+'</div></div>'
     +'</div>'
     +'</div>';
 }
@@ -5464,120 +5301,11 @@ function renderEmployeeReport() {
   document.getElementById('page-content').innerHTML = html;
 }
 
-// ==================== ORDER TRACKING ====================
+// ==================== ORDER TRACKING (محذوف) ====================
 function renderOrderTracking() {
-  const canEditOT = canDo('orderTracking','edit');
-  let invs = appState.invoices;
-  const q = (appState.filters.orderTracking||'').toLowerCase();
-  const statusF = appState.filters.orderTrackingStatus||'all';
-  const repF = appState.filters.orderTrackingRep||'';
-  const fromF = appState.filters.orderTrackingFrom||'';
-  const toF = appState.filters.orderTrackingTo||'';
-
-  if (q) invs = invs.filter(i=>
-    (i.serial||'').toLowerCase().includes(q)||
-    (i.customer_name||'').toLowerCase().includes(q)||
-    (i.sales_rep||'').toLowerCase().includes(q)
-  );
-  if (statusF !== 'all') invs = invs.filter(i=>(i.delivery_status||'delivered')===statusF);
-  if (repF) invs = invs.filter(i=>(i.sales_rep||'')===repF);
-  if (fromF) invs = invs.filter(i=>i.date>=fromF);
-  if (toF) invs = invs.filter(i=>i.date<=toF);
-
-  const srt = appState.sort.orderTracking;
-  if (srt && srt.col) invs = sortBy(invs, srt.col, srt.dir);
-  else invs = [...invs].sort((a,b)=>new Date(b.date)-new Date(a.date));
-
-  const total = invs.length;
-  const page = appState.pagination.orderTracking;
-  const paged = paginate(invs, page, appState.pageSize);
-
-  const allReps = [...new Set(appState.invoices.filter(i=>i.sales_rep).map(i=>i.sales_rep))].sort();
-  const repOpts = '<option value="">كل المندوبين</option>'+allReps.map(r=>'<option value="'+escHtml(r)+'" '+(repF===r?'selected':'')+'>'+escHtml(r)+'</option>').join('');
-
-  const inProgressCount = appState.invoices.filter(i=>i.status!=='cancelled'&&(i.delivery_status||'delivered')==='in_progress').length;
-  const deliveredCount = appState.invoices.filter(i=>i.status!=='cancelled'&&(i.delivery_status||'delivered')==='delivered').length;
-
-  let html = '';
-
-  // Stats
-  html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:16px;">'
-    +'<div class="stat-card" style="border-right-color:#f59e0b;cursor:pointer;" onclick="appState.filters.orderTrackingStatus=\'in_progress\';appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +'<div style="display:flex;align-items:center;gap:10px;">'
-    +'<div style="width:40px;height:40px;background:#fef3c7;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-spinner fa-spin" style="color:#f59e0b;"></i></div>'
-    +'<div><div style="font-size:0.75rem;color:#6b7280;">قيد التشغيل</div><div style="font-size:1.3rem;font-weight:700;color:#f59e0b;">'+inProgressCount+'</div></div>'
-    +'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#10b981;cursor:pointer;" onclick="appState.filters.orderTrackingStatus=\'delivered\';appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +'<div style="display:flex;align-items:center;gap:10px;">'
-    +'<div style="width:40px;height:40px;background:#d1fae5;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-check-double" style="color:#10b981;"></i></div>'
-    +'<div><div style="font-size:0.75rem;color:#6b7280;">تم التسليم</div><div style="font-size:1.3rem;font-weight:700;color:#10b981;">'+deliveredCount+'</div></div>'
-    +'</div></div>'
-    +'<div class="stat-card" style="border-right-color:#5D5CDE;">'
-    +'<div style="display:flex;align-items:center;gap:10px;">'
-    +'<div style="width:40px;height:40px;background:#ede9fe;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-file-invoice" style="color:#5D5CDE;"></i></div>'
-    +'<div><div style="font-size:0.75rem;color:#6b7280;">الإجمالي</div><div style="font-size:1.3rem;font-weight:700;color:#5D5CDE;">'+total+'</div></div>'
-    +'</div></div>'
-    +'</div>';
-
-  // Filters
-  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">'
-    +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
-    +'<input type="text" id="search-orderTracking" placeholder="بحث برقم الفاتورة أو العميل أو المندوب..." class="form-input" style="max-width:280px;" value="'+escHtml(appState.filters.orderTracking||'')+'" oninput="appState.filters.orderTracking=this.value;appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +'<select class="form-input" style="max-width:150px;" onchange="appState.filters.orderTrackingStatus=this.value;appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +'<option value="all" '+(statusF==='all'?'selected':'')+'>كل الحالات</option>'
-    +'<option value="in_progress" '+(statusF==='in_progress'?'selected':'')+'>قيد التشغيل</option>'
-    +'<option value="delivered" '+(statusF==='delivered'?'selected':'')+'>تم التسليم</option>'
-    +'</select>'
-    +'<select class="form-input" style="max-width:150px;" onchange="appState.filters.orderTrackingRep=this.value;appState.pagination.orderTracking=1;renderOrderTracking()">'+repOpts+'</select>'
-    +'<input type="date" class="form-input" style="max-width:140px;" value="'+fromF+'" title="من تاريخ" oninput="appState.filters.orderTrackingFrom=this.value;appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +'<input type="date" class="form-input" style="max-width:140px;" value="'+toF+'" title="إلى تاريخ" oninput="appState.filters.orderTrackingTo=this.value;appState.pagination.orderTracking=1;renderOrderTracking()">'
-    +((q||statusF!=='all'||repF||fromF||toF)?'<button onclick="resetPageFilters(\'orderTracking\')" class="btn-reset" title="مسح الفلاتر"><i class="fas fa-times"></i> إعادة تعيين</button>':'')
-    +'</div>'
-    +'<div style="display:flex;gap:8px;">'
-    +(canDo('orderTracking','export')?'<button onclick="exportOrderTrackingToExcel()" class="btn-success" style="white-space:nowrap;"><i class="fas fa-file-excel me-1"></i> تصدير Excel</button>':'')
-    +'</div></div>';
-
-  if (total === 0) {
-    html += '<div class="card" style="text-align:center;padding:40px;"><i class="fas fa-shipping-fast" style="font-size:48px;color:#d1d5db;"></i><p style="margin-top:16px;color:#6b7280;">لا توجد طلبات مطابقة</p></div>';
-  } else {
-    html += '<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
-      +'<table class="table-hover"><thead><tr>'
-      +'<th>#</th>'
-      +thSort('orderTracking','serial','رقم الفاتورة')
-      +thSort('orderTracking','date','التاريخ')
-      +thSort('orderTracking','customer_name','العميل')
-      +thSort('orderTracking','sales_rep','المندوب')
-      +thSort('orderTracking','net_amount','الصافي')
-      +'<th>حالة الطلب</th>'
-      +(canEditOT?'<th>تغيير الحالة</th>':'')
-      +'</tr></thead><tbody>';
-
-    paged.forEach((inv,i) => {
-      const ds = inv.delivery_status || 'delivered';
-      const isInProgress = ds === 'in_progress';
-      const cancelled = inv.status === 'cancelled';
-      html += '<tr style="'+(cancelled?'opacity:0.5;':'')+(isInProgress&&!cancelled?'background:#fffbeb;':'')+'"><td style="color:#9ca3af;">'+(((page-1)*appState.pageSize)+i+1)+'</td>'
-        +'<td style="font-family:monospace;font-size:0.85rem;font-weight:600;">'+escHtml(inv.serial)+'</td>'
-        +'<td>'+formatDate(inv.date)+'</td>'
-        +'<td>'+escHtml(inv.customer_name)+'</td>'
-        +'<td>'+escHtml(inv.sales_rep||'-')+'</td>'
-        +'<td style="font-weight:600;color:#5D5CDE;">'+formatCurrency(inv.net_amount)+'</td>'
-        +'<td>'+(cancelled
-          ?'<span style="background:#fee2e2;color:#991b1b;padding:4px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;"><i class="fas fa-ban me-1"></i>ملغية</span>'
-          :(isInProgress
-            ?'<span style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;"><i class="fas fa-spinner fa-spin me-1"></i>قيد التشغيل</span>'
-            :'<span style="background:#d1fae5;color:#065f46;padding:4px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;"><i class="fas fa-check-double me-1"></i>تم التسليم</span>'))
-        +'</td>'
-        +(canEditOT?'<td>'+(cancelled?'':'<button onclick="updateOrderStatus(\''+inv.id+'\',\''+(isInProgress?'delivered':'in_progress')+'\')" style="background:'+(isInProgress?'#d1fae5':'#fef3c7')+';color:'+(isInProgress?'#065f46':'#92400e')+';border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:600;"><i class="fas fa-'+(isInProgress?'check':'undo')+' me-1"></i>'+(isInProgress?'تسليم':'إلغاء تسليم')+'</button>')+'</td>':'')
-        +'</tr>';
-    });
-    html += '</tbody></table></div></div>';
-    html += renderPagination(total, page, appState.pageSize, 'changeOrderTrackingPage');
-  }
-  setPageContent(html, 'search-orderTracking');
+  // هذه الصفحة تم إزالتها من نظام توزيع المواد الغذائية
 }
-function toggleRepDetails(el) { const d = el.nextElementSibling; d.style.display = d.style.display === 'none' ? 'block' : 'none'; }
-function changeOrderTrackingPage(p) { appState.pagination.orderTracking=p; renderOrderTracking(); }
+function changeOrderTrackingPage(p) { /* removed */ }
 async function updateOrderStatus(id, newStatus) {
   const inv = appState.invoices.find(i=>i.id===id);
   if (!inv) return;
@@ -5619,9 +5347,7 @@ function renderSystemSettings() {
     +'<div class="input-group"><label class="form-label">اسم الشركة</label><input id="set-company" class="form-input" value="'+(s.companyName||'')+'"></div>'
     +'<div class="input-group"><label class="form-label">رمز العملة</label><input id="set-currency" class="form-input" value="'+(s.currency||'ج.م')+'"></div>'
     +'<div class="input-group"><label class="form-label">نسبة الخصم الافتراضية للفواتير (%)</label><input id="set-disc" type="number" class="form-input" value="'+(s.defaultDiscount||0)+'" min="0" max="100" step="0.5"></div>'
-    +'<div class="input-group"><label class="form-label">نسبة خصم الوكيل من المصنع (%) <span style="color:#6b7280;font-size:0.8rem;">- تُستخدم لحساب سعر البيع تلقائياً</span></label><input id="set-agent-disc" type="number" class="form-input" value="'+(s.agentDiscount||0)+'" min="0" max="100" step="0.5"></div>'
     +'<div class="input-group"><label class="form-label">الرصيد الافتتاحي للمحفظة (ج.م)</label><input id="set-opening-wal" type="number" class="form-input" value="'+(s.openingWalletBalance||0)+'" step="0.01"></div>'
-    +'<div class="input-group"><label class="form-label">رصيد افتتاحي مديونية المصنع (ج.م) <span style="color:#6b7280;font-size:0.8rem;">- الرصيد المستحق للمصنع قبل بدء التشغيل</span></label><input id="set-factory-opening" type="number" class="form-input" value="'+(s.factoryOpeningBalance||0)+'" min="0" step="0.01" placeholder="0.00"></div>'
     +'<hr style="border-color:#e5e7eb;margin:4px 0;">'
     +'<h4 style="font-weight:700;color:#374151;margin-bottom:4px;"><i class="fas fa-shield-alt me-2" style="color:#5D5CDE;"></i> إعدادات الأمان</h4>'
     +'<div class="input-group"><label class="form-label">مدة الخروج التلقائي عند السكون (بالدقائق) <span style="color:#6b7280;font-size:0.8rem;">- أدخل 0 لتعطيل الخروج التلقائي</span></label><input id="set-autologout" type="number" class="form-input" value="'+(s.autoLogoutMinutes!==undefined?s.autoLogoutMinutes:15)+'" min="0" max="1440" step="1" placeholder="15"></div>'
@@ -5638,9 +5364,7 @@ function saveSystemSettings() {
   appState.settings.companyName = document.getElementById('set-company')?.value.trim()||'';
   appState.settings.currency = document.getElementById('set-currency')?.value.trim()||'ج.م';
   appState.settings.defaultDiscount = parseFloat(document.getElementById('set-disc')?.value)||0;
-  appState.settings.agentDiscount = parseFloat(document.getElementById('set-agent-disc')?.value)||0;
   appState.settings.openingWalletBalance = parseFloat(document.getElementById('set-opening-wal')?.value)||0;
-  appState.settings.factoryOpeningBalance = parseFloat(document.getElementById('set-factory-opening')?.value)||0;
   appState.settings.autoLogoutMinutes = parseInt(document.getElementById('set-autologout')?.value);
   if (isNaN(appState.settings.autoLogoutMinutes)) appState.settings.autoLogoutMinutes = 15;
   appState.settings.autoRefreshSeconds = parseInt(document.getElementById('set-auto-refresh')?.value);
@@ -5852,7 +5576,7 @@ function renderSupabaseSettings() {
     +'<button onclick="navigator.clipboard.writeText(document.getElementById(\'sql-schema-text\').innerText).then(()=>showToast(\'تم نسخ السكريبت\',\'success\'))" class="btn-secondary" style="margin-bottom:12px;font-size:0.85rem;"><i class="fas fa-copy me-1"></i> نسخ سكريبت الجداول فقط</button>'
     +'<pre id="sql-schema-text" style="background:#1e1b4b;color:#a5b4fc;padding:16px;border-radius:8px;font-size:0.75rem;overflow-x:auto;white-space:pre-wrap;">'
     +'-- ============================================================\n'
-    +'-- SQL Schema - نظام إدارة وكيل دهانات الحرمين\n'
+    +'-- SQL Schema - نظام إدارة توزيع المواد الغذائية\n'
     +'-- تاريخ التحديث: '+new Date().toISOString().split('T')[0]+'\n'
     +'-- ============================================================\n\n'
     +'-- جدول العملاء\n'
@@ -7210,6 +6934,201 @@ function clearSelectedData() {
     }
     showToast('تم حذف البيانات المحددة نهائياً: ' + labels,'success');
     navigate('dashboard');
+  });
+}
+
+
+// ==================== HELP PAGE ====================
+function renderHelp() {
+  const html = '<div style="max-width:900px;">'
+    +'<div class="card" style="margin-bottom:20px;">'
+    +'<h2 class="section-title"><i class="fas fa-question-circle me-2" style="color:#5D5CDE;"></i> دليل استخدام النظام</h2>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px;">'
+    // Customers
+    +'<div style="background:#f0f9ff;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#0369a1;margin-bottom:8px;"><i class="fas fa-users me-2"></i>العملاء</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>أضف بيانات العملاء مع رقم الهاتف والمنطقة والتصنيف</li>'
+    +'<li>يمكن تعيين رصيد افتتاحي لكل عميل</li>'
+    +'<li>تتبع رصيد العميل الحالي تلقائياً من الفواتير والتحصيلات</li>'
+    +'</ul>'
+    +'</div>'
+    // Invoices
+    +'<div style="background:#f0fdf4;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#065f46;margin-bottom:8px;"><i class="fas fa-file-invoice me-2"></i>الفواتير</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>أنشئ فاتورة جديدة وأضف أصناف من قائمة المنتجات</li>'
+    +'<li>يمكن تطبيق خصم على مستوى الفاتورة أو الصنف</li>'
+    +'<li>طباعة الفاتورة أو تصديرها بصيغة PDF</li>'
+    +'</ul>'
+    +'</div>'
+    // Collections
+    +'<div style="background:#fefce8;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#92400e;margin-bottom:8px;"><i class="fas fa-money-bill-wave me-2"></i>التحصيلات</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>سجّل المبالغ المحصّلة من العملاء مع طريقة الدفع</li>'
+    +'<li>تنخفض ديون العميل تلقائياً عند تسجيل التحصيل</li>'
+    +'<li>فلترة التحصيلات حسب التاريخ وطريقة الدفع</li>'
+    +'</ul>'
+    +'</div>'
+    // Supplier Payments
+    +'<div style="background:#fdf4ff;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#6b21a8;margin-bottom:8px;"><i class="fas fa-truck me-2"></i>دفعات الموردين</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>تتبع المبالغ المدفوعة للموردين</li>'
+    +'<li>مراقبة مديونية الموردين الإجمالية</li>'
+    +'<li>تسجيل طريقة الدفع ورقم المرجع</li>'
+    +'</ul>'
+    +'</div>'
+    // Products
+    +'<div style="background:#fff7ed;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#c2410c;margin-bottom:8px;"><i class="fas fa-box me-2"></i>المنتجات</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>أدر قائمة المنتجات الغذائية مع التصنيفات</li>'
+    +'<li>حدّد سعر التكلفة وسعر البيع لكل منتج</li>'
+    +'<li>تصدير قائمة المنتجات بصيغة Excel</li>'
+    +'</ul>'
+    +'</div>'
+    // Branches
+    +'<div style="background:#f0f9ff;padding:16px;border-radius:10px;">'
+    +'<h4 style="color:#0369a1;margin-bottom:8px;"><i class="fas fa-code-branch me-2"></i>إدارة الفروع</h4>'
+    +'<ul style="color:#374151;font-size:0.88rem;padding-right:16px;line-height:1.8;">'
+    +'<li>أضف فروع ومستودعات متعددة للنظام</li>'
+    +'<li>حدد مدير كل فرع وحالة التشغيل</li>'
+    +'<li>فلترة البيانات حسب الفرع من شريط الأدوات</li>'
+    +'</ul>'
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    // FAQ
+    +'<div class="card" style="margin-bottom:20px;">'
+    +'<h3 class="section-title"><i class="fas fa-comments me-2" style="color:#10b981;"></i> الأسئلة الشائعة</h3>'
+    +'<div style="display:grid;gap:12px;margin-top:16px;">'
+    +'<details style="background:#f9fafb;padding:14px;border-radius:8px;">'
+    +'<summary style="font-weight:600;cursor:pointer;color:#374151;">كيف أضيف عميل جديد؟</summary>'
+    +'<p style="margin-top:10px;color:#6b7280;font-size:0.9rem;">اذهب إلى صفحة العملاء → انقر "إضافة عميل" → أدخل البيانات المطلوبة وانقر حفظ.</p>'
+    +'</details>'
+    +'<details style="background:#f9fafb;padding:14px;border-radius:8px;">'
+    +'<summary style="font-weight:600;cursor:pointer;color:#374151;">كيف أحسب أرباح فترة معينة؟</summary>'
+    +'<p style="margin-top:10px;color:#6b7280;font-size:0.9rem;">اذهب إلى صفحة الأرباح، حدد تاريخ البداية والنهاية وانقر "عرض". ستظهر الأرباح حسب الفواتير والعملاء.</p>'
+    +'</details>'
+    +'<details style="background:#f9fafb;padding:14px;border-radius:8px;">'
+    +'<summary style="font-weight:600;cursor:pointer;color:#374151;">كيف أستخرج كشف حساب عميل؟</summary>'
+    +'<p style="margin-top:10px;color:#6b7280;font-size:0.9rem;">اذهب إلى التقارير → كشف حساب، اختر العميل والفترة الزمنية ثم انقر "عرض".</p>'
+    +'</details>'
+    +'<details style="background:#f9fafb;padding:14px;border-radius:8px;">'
+    +'<summary style="font-weight:600;cursor:pointer;color:#374151;">كيف أضيف مستخدم جديد للنظام؟</summary>'
+    +'<p style="margin-top:10px;color:#6b7280;font-size:0.9rem;">اذهب إلى الإعدادات → تبويب المستخدمون → إضافة مستخدم. حدد دوره وصلاحياته.</p>'
+    +'</details>'
+    +'</div>'
+    +'</div>'
+    // Support
+    +'<div class="card">'
+    +'<h3 class="section-title"><i class="fas fa-headset me-2" style="color:#f59e0b;"></i> الدعم الفني</h3>'
+    +'<div style="background:#fffbeb;padding:16px;border-radius:10px;margin-top:16px;">'
+    +'<p style="color:#374151;margin-bottom:8px;">للحصول على المساعدة أو الإبلاغ عن مشكلة:</p>'
+    +'<ul style="color:#6b7280;font-size:0.9rem;padding-right:16px;line-height:2;">'
+    +'<li><i class="fas fa-envelope me-2" style="color:#f59e0b;"></i> راجع إعدادات النظام لتحديث بيانات التواصل</li>'
+    +'<li><i class="fas fa-database me-2" style="color:#f59e0b;"></i> استخدم قسم النسخ الاحتياطي لحفظ بياناتك دورياً</li>'
+    +'<li><i class="fas fa-history me-2" style="color:#f59e0b;"></i> راجع سجل الحركات لتتبع أي تغييرات في النظام</li>'
+    +'</ul>'
+    +'</div>'
+    +'</div>'
+    +'</div>';
+  document.getElementById('page-content').innerHTML = html;
+}
+
+// ==================== BRANCHES (إدارة الفروع) ====================
+function renderBranches() {
+  if (!canDo('branches','view')) {
+    document.getElementById('page-content').innerHTML='<div class="card" style="text-align:center;padding:40px;"><i class="fas fa-lock" style="font-size:48px;color:#d1d5db;"></i><p style="margin-top:16px;color:#6b7280;">ليس لديك صلاحية الوصول لهذه الصفحة</p></div>';
+    return;
+  }
+  const canAdd = canDo('branches','add');
+  const canEdit = canDo('branches','edit');
+  const canDel = canDo('branches','delete');
+  const branches = (appState.branches||[]).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  let html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">'
+    +'<div></div>'
+    +(canAdd?'<button onclick="openBranchModal()" class="btn-primary"><i class="fas fa-plus me-1"></i> إضافة فرع</button>':'')
+    +'</div>';
+  if (!branches.length) {
+    html += '<div class="card" style="text-align:center;padding:40px;color:#9ca3af;"><i class="fas fa-code-branch" style="font-size:48px;margin-bottom:12px;"></i><p>لا توجد فروع مسجّلة بعد</p></div>';
+  } else {
+    html += '<div class="card" style="padding:0;overflow:hidden;"><div style="overflow-x:auto;">'
+      +'<table class="table-hover"><thead><tr>'
+      +'<th>اسم الفرع</th><th>الموقع</th><th>المدير</th><th>الحالة</th><th>ملاحظات</th><th>إجراءات</th>'
+      +'</tr></thead><tbody>';
+    branches.forEach(b=>{
+      html += '<tr>'
+        +'<td style="font-weight:700;">'+escHtml(b.name||'')+'</td>'
+        +'<td>'+escHtml(b.location||'—')+'</td>'
+        +'<td>'+escHtml(b.manager||'—')+'</td>'
+        +'<td>'+(b.status==='active'?'<span class="badge badge-active">نشط</span>':'<span class="badge badge-inactive">غير نشط</span>')+'</td>'
+        +'<td style="font-size:0.82rem;color:#6b7280;">'+escHtml(b.notes||'—')+'</td>'
+        +'<td style="white-space:nowrap;">'
+        +(canEdit?'<button onclick="openBranchModal(\''+b.id+'\')" style="background:#eff6ff;color:#1d4ed8;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:4px;"><i class="fas fa-edit"></i></button>':'')
+        +(canDel?'<button onclick="deleteBranch(\''+b.id+'\')" style="background:#fee2e2;color:#991b1b;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.8rem;"><i class="fas fa-trash"></i></button>':'')
+        +'</td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  setPageContent(html);
+}
+
+function openBranchModal(editId) {
+  const b = editId ? (appState.branches||[]).find(x=>x.id===editId) : null;
+  showModal('<div style="padding:24px;">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'
+    +'<h3 style="font-size:1.1rem;font-weight:700;">'+(b?'تعديل الفرع':'إضافة فرع جديد')+'</h3>'
+    +'<button onclick="closeModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#6b7280;">×</button>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'
+    +'<div class="input-group"><label class="form-label">اسم الفرع *</label><input id="br-name" class="form-input" value="'+escHtml(b?.name||'')+'" placeholder="مثال: الفرع الرئيسي"></div>'
+    +'<div class="input-group"><label class="form-label">الموقع</label><input id="br-location" class="form-input" value="'+escHtml(b?.location||'')+'" placeholder="العنوان أو المنطقة"></div>'
+    +'<div class="input-group"><label class="form-label">المدير</label><input id="br-manager" class="form-input" value="'+escHtml(b?.manager||'')+'"></div>'
+    +'<div class="input-group"><label class="form-label">الحالة</label>'
+    +'<select id="br-status" class="form-input"><option value="active" '+((!b||b.status==='active')?'selected':'')+'>نشط</option><option value="inactive" '+(b?.status==='inactive'?'selected':'')+'>غير نشط</option></select>'
+    +'</div>'
+    +'<div class="input-group" style="grid-column:1/-1;"><label class="form-label">ملاحظات</label><textarea id="br-notes" class="form-input" rows="2">'+escHtml(b?.notes||'')+'</textarea></div>'
+    +'</div>'
+    +'<div id="br-err" style="color:#ef4444;font-size:0.85rem;margin-top:8px;display:none;"></div>'
+    +'<div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;">'
+    +'<button onclick="closeModal()" class="btn-secondary">إلغاء</button>'
+    +'<button onclick="saveBranch(\''+(editId||'null')+'\')" class="btn-primary"><i class="fas fa-save me-1"></i> حفظ</button>'
+    +'</div></div>');
+}
+
+async function saveBranch(editId) {
+  const nameVal = document.getElementById('br-name')?.value.trim()||'';
+  const errEl = document.getElementById('br-err');
+  errEl.style.display='none';
+  if (!nameVal) { errEl.style.display='block'; errEl.textContent='يرجى إدخال اسم الفرع'; return; }
+  const id = (editId && editId!=='null') ? editId : generateId();
+  const record = {
+    id, name:nameVal,
+    location:document.getElementById('br-location')?.value.trim()||'',
+    manager:document.getElementById('br-manager')?.value.trim()||'',
+    status:document.getElementById('br-status')?.value||'active',
+    notes:document.getElementById('br-notes')?.value.trim()||'',
+    created_at:(editId&&editId!=='null')?((appState.branches||[]).find(b=>b.id===editId)?.created_at||new Date().toISOString()):new Date().toISOString()
+  };
+  await dbSave('branches', record);
+  appState.branches = await dbGet('branches');
+  closeModal();
+  logActivity((editId&&editId!=='null')?'تعديل فرع':'إضافة فرع', 'إدارة الفروع', record.name);
+  showToast((editId&&editId!=='null')?'تم تعديل الفرع':'تمت إضافة الفرع بنجاح','success');
+  renderBranches();
+}
+
+function deleteBranch(id) {
+  const b = (appState.branches||[]).find(x=>x.id===id);
+  showConfirm('هل تريد حذف هذا الفرع؟', async function(){
+    await dbDelete('branches', id);
+    appState.branches = await dbGet('branches');
+    logActivity('حذف فرع', 'إدارة الفروع', b?.name||id);
+    showToast('تم حذف الفرع','success');
+    renderBranches();
   });
 }
 
