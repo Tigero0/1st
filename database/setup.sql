@@ -413,6 +413,7 @@ INSERT INTO role_permissions (role_name, page, can_view, can_add, can_edit, can_
   ('manager', 'factoryPayments',    TRUE,  TRUE,  TRUE,  FALSE),
   ('manager', 'profits',            TRUE,  FALSE, FALSE, FALSE),
   ('manager', 'reports',            TRUE,  FALSE, FALSE, FALSE),
+  ('manager', 'activityLog',        TRUE,  FALSE, FALSE, FALSE),
   ('manager', 'employeeReport',     TRUE,  FALSE, FALSE, FALSE),
   ('manager', 'writeoffs',          TRUE,  TRUE,  FALSE, FALSE),
   ('manager', 'agentDiscountRates', TRUE,  TRUE,  TRUE,  FALSE),
@@ -543,7 +544,8 @@ INSERT INTO invoice_items (id, invoice_id, product_id, product_name, unit, qty, 
   ('f1000001-0000-0000-0000-000000000024', 'e1000001-0000-0000-0000-000000000010', 'd1000001-0000-0000-0000-000000000012', 'دهان مضاد للصدأ',   'لتر', 26,  68.00,  0.00, 1768.00),
   ('f1000001-0000-0000-0000-000000000025', 'e1000001-0000-0000-0000-000000000011', 'd1000001-0000-0000-0000-000000000002', 'دهان خارجي عادي',  'لتر', 40,  38.00,  0.00, 1520.00),
   ('f1000001-0000-0000-0000-000000000026', 'e1000001-0000-0000-0000-000000000012', 'd1000001-0000-0000-0000-000000000007', 'ديكوري تكسير',      'كجم', 25, 105.00, 10.00, 2362.50),
-  ('f1000001-0000-0000-0000-000000000027', 'e1000001-0000-0000-0000-000000000012', 'd1000001-0000-0000-0000-000000000001', 'دهان خارجي ممتاز', 'لتر', 50,  55.00, 10.00, 2475.00);
+  ('f1000001-0000-0000-0000-000000000027', 'e1000001-0000-0000-0000-000000000012', 'd1000001-0000-0000-0000-000000000001', 'دهان خارجي ممتاز', 'لتر', 50,  55.00, 10.00, 2475.00)
+ON CONFLICT DO NOTHING;
 
 -- ---- 6.5 التحصيلات ----
 INSERT INTO collections (id, date, customer_id, customer_name, invoice_serial, amount, method, employee, notes, created_at) VALUES
