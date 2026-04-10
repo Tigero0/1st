@@ -464,6 +464,12 @@ function initSupabaseClient() {
   return supabaseClient;
 }
 
+// Returns the admin client (service role key — bypasses RLS) when available,
+// otherwise falls back to the regular anon client.
+function getDbClient() {
+  return supabaseAdminClient || supabaseClient;
+}
+
 // ==================== MOCK DATA ====================
 const MOCK_USERS = [
   {id:'u1',email:'admin@erp.com',password:'admin123',name:'مدير النظام',role:'admin',status:'active'},
@@ -646,7 +652,7 @@ async function dbGet(table) {
     try {
       // invoice_items has no created_at column — skip ordering for it
       const tablesWithoutCreatedAt = ['invoice_items'];
-      let query = supabaseClient.from(table).select('*');
+      let query = getDbClient().from(table).select('*');
       if (!tablesWithoutCreatedAt.includes(table)) {
         query = query.order('created_at', {ascending:false});
       }
@@ -672,7 +678,7 @@ async function dbSave(table, record) {
     // Normalise user records: map camelCase → snake_case and strip plain-text password
     const sbRecord = table === 'users' ? normalizeUserForDB(record) : record;
     try {
-      const { error } = await supabaseClient.from(table).upsert(sbRecord);
+      const { error } = await getDbClient().from(table).upsert(sbRecord);
       if (error) {
         console.warn('[dbSave] فشل حفظ البيانات في', table, ':', error?.message || error);
         _showDbSaveError();
@@ -686,7 +692,7 @@ async function dbSave(table, record) {
 }
 async function dbDelete(table, id) {
   if (supabaseClient && appState.supabaseConfigured) {
-    try { await supabaseClient.from(table).delete().eq('id',id); } catch(e) {}
+    try { await getDbClient().from(table).delete().eq('id',id); } catch(e) {}
   }
 }
 // Ensure a saved entry is present in appState after dbGet, in case Supabase rejected it (e.g. missing column).
@@ -698,7 +704,7 @@ function ensureStateEntry(entry, stateArr) {
 async function dbSaveSettings(settings) {
   if (supabaseClient && appState.supabaseConfigured) {
     try {
-      await supabaseClient.from('app_settings').upsert({ id: 'main', data: settings, updated_at: new Date().toISOString() });
+      await getDbClient().from('app_settings').upsert({ id: 'main', data: settings, updated_at: new Date().toISOString() });
     } catch(e) {
       console.warn('[dbSaveSettings] فشل مزامنة الإعدادات مع Supabase:', e?.message || e);
     }
@@ -707,7 +713,7 @@ async function dbSaveSettings(settings) {
 async function dbLoadSettings() {
   if (supabaseClient && appState.supabaseConfigured) {
     try {
-      const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'main').maybeSingle();
+      const { data, error } = await getDbClient().from('app_settings').select('*').eq('id', 'main').maybeSingle();
       if (error) {
         console.warn('[dbLoadSettings] فشل تحميل الإعدادات من Supabase:', error.message);
       } else if (data?.data) {
@@ -1428,13 +1434,13 @@ async function loadUserProfile(email, fallbackId) {
   let user = null;
   if (supabaseClient && appState.supabaseConfigured) {
     try {
-      const { data } = await supabaseClient.from('users').select('*').eq('email', email).maybeSingle();
+      const { data } = await getDbClient().from('users').select('*').eq('email', email).maybeSingle();
       user = data;
     } catch(e) {}
     // Secondary lookup by auth UUID in case the email query failed (e.g. RLS timing, case mismatch)
     if (!user && fallbackId) {
       try {
-        const { data } = await supabaseClient.from('users').select('*').eq('id', fallbackId).maybeSingle();
+        const { data } = await getDbClient().from('users').select('*').eq('id', fallbackId).maybeSingle();
         user = data;
       } catch(e) {}
     }
@@ -1443,7 +1449,7 @@ async function loadUserProfile(email, fallbackId) {
     let hasSupabaseAdmin = false;
     if (supabaseClient && appState.supabaseConfigured) {
       try {
-        const { data } = await supabaseClient.from('users').select('id').eq('role','admin').eq('status','active').limit(1);
+        const { data } = await getDbClient().from('users').select('id').eq('role','admin').eq('status','active').limit(1);
         hasSupabaseAdmin = !!(data && data.length > 0);
       } catch(e) {}
     }
@@ -1452,7 +1458,7 @@ async function loadUserProfile(email, fallbackId) {
     // Use insert (not upsert) so we never overwrite an existing record that was temporarily unreadable
     if (supabaseClient && appState.supabaseConfigured) {
       try {
-        await supabaseClient.from('users').insert(normalizeUserForDB({...user}));
+        await getDbClient().from('users').insert(normalizeUserForDB({...user}));
       } catch(e) {}
     } else {
       await dbSave('users', user);
@@ -1773,7 +1779,7 @@ async function logActivity(action, resource, details) {
   if (appState.activityLog.length > 2000) appState.activityLog = appState.activityLog.slice(0, 2000);
   if (supabaseClient && appState.supabaseConfigured) {
     try {
-      const { error } = await supabaseClient.from('activity_log').insert(entry);
+      const { error } = await getDbClient().from('activity_log').insert(entry);
       if (error) {
         const notFound = error.code==='PGRST116' || error.code==='42P01'
           || (error.message||'').includes('does not exist')
@@ -1784,7 +1790,7 @@ async function logActivity(action, resource, details) {
         // fall back to legacy schema insert
         const isColumnError = error.code === '42703';
         if (isColumnError) {
-          const { error: legacyError } = await supabaseClient.from('activity_log').insert(legacyEntry);
+          const { error: legacyError } = await getDbClient().from('activity_log').insert(legacyEntry);
           if (legacyError) {
             console.warn('[logActivity] فشل حفظ السجل (legacy):', legacyError?.message||legacyError);
           }
@@ -1806,7 +1812,7 @@ async function autoCleanActivityLog() {
   appState.activityLog = appState.activityLog.filter(e => new Date(e.timestamp) >= cutoff);
   if (appState.activityLog.length !== before) {
     if (supabaseClient && appState.supabaseConfigured) {
-      try { await supabaseClient.from('activity_log').delete().lt('timestamp', cutoff.toISOString()); } catch(e) { console.warn('[autoCleanActivityLog] فشل مسح السجلات القديمة من Supabase:', e?.message||e); }
+      try { await getDbClient().from('activity_log').delete().lt('timestamp', cutoff.toISOString()); } catch(e) { console.warn('[autoCleanActivityLog] فشل مسح السجلات القديمة من Supabase:', e?.message||e); }
     }
   }
 }
@@ -1822,7 +1828,7 @@ async function renderActivityLog() {
   let tableExists = true;
   if (supabaseClient && appState.supabaseConfigured) {
     try {
-      const { data, error } = await supabaseClient.from('activity_log').select('*').order('timestamp', { ascending: false }).limit(2000);
+      const { data, error } = await getDbClient().from('activity_log').select('*').order('timestamp', { ascending: false }).limit(2000);
       if (error) {
         tableExists = false;
         appState._activityLogTableMissing = true;
@@ -1929,7 +1935,7 @@ function clearActivityLog() {
   showConfirm('هل تريد مسح سجل الحركات بالكامل؟ لا يمكن التراجع!', async function(){
     appState.activityLog = [];
     if (supabaseClient && appState.supabaseConfigured) {
-      try { await supabaseClient.from('activity_log').delete().gte('id', ''); } catch(e) { console.warn('[clearActivityLog] فشل مسح سجل الحركات من Supabase:', e?.message||e); }
+      try { await getDbClient().from('activity_log').delete().gte('id', ''); } catch(e) { console.warn('[clearActivityLog] فشل مسح سجل الحركات من Supabase:', e?.message||e); }
     }
     showToast('تم مسح سجل الحركات', 'success');
     await renderActivityLog();
@@ -3228,7 +3234,7 @@ async function saveInvoice() {
   if (supabaseClient && appState.supabaseConfigured) {
     let attempts = 0;
     while (attempts < MAX_SERIAL_RETRY_ATTEMPTS) {
-      const {data} = await supabaseClient.from('invoices').select('id').eq('serial',serial).maybeSingle();
+      const {data} = await getDbClient().from('invoices').select('id').eq('serial',serial).maybeSingle();
       if (!data) break;
       const parts = serial.split('-');
       const n = parseInt(parts.pop())+1;
@@ -3314,7 +3320,7 @@ function deleteInvoice(id) {
   showConfirm('هل تريد حذف الفاتورة "'+escHtml(inv?.serial||'')+'" نهائياً؟ لا يمكن التراجع عن هذه العملية.', async function(){
     await dbDelete('invoices', id);
     if (supabaseClient && appState.supabaseConfigured) {
-      try { await supabaseClient.from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
+      try { await getDbClient().from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
     }
     appState.invoices = await dbGet('invoices');
     appState.invoiceItems = await dbGet('invoice_items');
@@ -3361,7 +3367,7 @@ async function deleteInvoiceFromRepair(id) {
   if (!confirm('حذف الفاتورة "'+((inv&&inv.serial)||id)+'" نهائياً؟')) return;
   await dbDelete('invoices', id);
   if (supabaseClient && appState.supabaseConfigured) {
-    try { await supabaseClient.from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
+    try { await getDbClient().from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
   }
   appState.invoices = await dbGet('invoices');
   appState.invoiceItems = await dbGet('invoice_items');
@@ -3501,7 +3507,7 @@ async function saveEditInvoice(id) {
   await dbSave('invoices', updated);
   // Delete old items and re-save new ones
   if (supabaseClient && appState.supabaseConfigured) {
-    try { await supabaseClient.from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
+    try { await getDbClient().from('invoice_items').delete().eq('invoice_id', id); } catch(e) {}
   }
   for (const it of validItems) {
     const color = document.getElementById(it.rowId+'_color')?.value||'';
@@ -5846,19 +5852,18 @@ function saveSupabaseConfig() {
   const key = document.getElementById('sb-key')?.value.trim();
   const serviceKey = document.getElementById('sb-service-key')?.value.trim();
   lsSet('supabase_config', {url, key, serviceKey});
+  // Null out existing clients so initSupabaseClient() will create fresh ones
   supabaseClient = null;
   supabaseAdminClient = null;
   appState.supabaseConfigured = false;
   if (url && key && window.supabase) {
     try {
-      supabaseClient = window.supabase.createClient(url, key);
-      appState.supabaseConfigured = true;
-      if (serviceKey) {
-        supabaseAdminClient = window.supabase.createClient(url, serviceKey, {
-          auth: { autoRefreshToken: false, persistSession: false }
-        });
+      initSupabaseClient();
+      if (appState.supabaseConfigured) {
+        showToast('تم حفظ إعدادات Supabase','success');
+      } else {
+        showToast('خطأ في إنشاء الاتصال','error');
       }
-      showToast('تم حفظ إعدادات Supabase','success');
     } catch(e) { showToast('خطأ في إنشاء الاتصال','error'); }
   } else { showToast('تم حفظ الإعدادات (بدون اتصال)','info'); }
 }
@@ -5870,21 +5875,17 @@ async function testSupabaseConnection() {
   if (!url||!key) { if(el) el.innerHTML='<span style="color:#ef4444;">يرجى إدخال الـ URL والـ Key</span>'; return; }
   if(el) el.innerHTML='<span class="spinner"></span> جاري الاختبار...';
   try {
-    // Use persistSession:false to avoid creating a conflicting GoTrueClient instance
+    // Use a unique storageKey so this temp client does not share auth state
+    // with the main client and avoids the "Multiple GoTrueClient instances" warning.
     const testClient = window.supabase.createClient(url, key, {
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false, storageKey: 'sb-test-client-tmp' }
     });
     const {data,error} = await testClient.from('customers').select('count').limit(1);
     if (error && error.code!=='PGRST116') throw error;
-    // Test succeeded — update the main client so it uses the new credentials
-    supabaseClient = null; supabaseAdminClient = null; appState.supabaseConfigured = false;
+    // Test succeeded — save config and reinitialise the main clients via the singleton helper
     lsSet('supabase_config', { url, key, serviceKey: serviceKey || (lsGet('supabase_config')||{}).serviceKey || '' });
+    supabaseClient = null; supabaseAdminClient = null; appState.supabaseConfigured = false;
     initSupabaseClient();
-    if (serviceKey && supabaseClient) {
-      supabaseAdminClient = window.supabase.createClient(url, serviceKey, {
-        auth: { autoRefreshToken: false, persistSession: false }
-      });
-    }
     if(el) el.innerHTML='<span style="color:#10b981;font-weight:700;"><i class="fas fa-check-circle me-1"></i> الاتصال ناجح!'+(serviceKey?' (مع Service Role Key)':'')+'</span>';
   } catch(e) {
     if(el) el.innerHTML='<span style="color:#ef4444;"><i class="fas fa-times-circle me-1"></i> فشل الاتصال: '+( e.message||'خطأ غير معروف')+'</span>';
@@ -5917,7 +5918,7 @@ async function syncUsersToSupabaseAuth() {
       // Always push the user profile record to the users table (use email as stable conflict key)
       if (supabaseClient && appState.supabaseConfigured) {
         try {
-          const { error } = await supabaseClient.from('users').upsert({
+          const { error } = await getDbClient().from('users').upsert({
             email: u.email, name: u.name, role: u.role,
             status: u.status || 'active',
             custom_perms: u.custom_perms || null,
@@ -6515,7 +6516,7 @@ function importData(input) {
           for (let i = 0; i < rows.length; i += CHUNK) {
             const chunk = rows.slice(i, i + CHUNK).map(r => normalizeRowForDB(t.key, r));
             try {
-              const {error} = await supabaseClient.from(t.key).upsert(chunk, {onConflict:'id'});
+              const {error} = await getDbClient().from(t.key).upsert(chunk, {onConflict:'id'});
               if (error) { errorMsg = error.message; break; }
               pushed += chunk.length;
             } catch(ex) { errorMsg = ex.message; break; }
@@ -6598,7 +6599,7 @@ async function pushLocalToSupabase() {
     for (let i = 0; i < rows.length; i += CHUNK) {
       const chunk = rows.slice(i, i + CHUNK).map(r => normalizeRowForDB(t.key, r));
       try {
-        const {error} = await supabaseClient.from(t.key).upsert(chunk, {onConflict:'id'});
+        const {error} = await getDbClient().from(t.key).upsert(chunk, {onConflict:'id'});
         if (error) { errorMsg = error.message; break; }
         pushed += chunk.length;
       } catch(e) { errorMsg = e.message; break; }
@@ -6883,7 +6884,7 @@ function clearAllData() {
       let cloudError = false;
       for (const t of tables) {
         try {
-          await supabaseClient.from(t).delete().gte('id', '');
+          await getDbClient().from(t).delete().gte('id', '');
         } catch(e) { cloudError = true; }
       }
       if (cloudError) showToast('تحذير: فشل حذف بعض البيانات من السحابة، تم مسح البيانات المحلية فقط','warning');
@@ -6918,7 +6919,7 @@ function clearSelectedData() {
       let cloudError = false;
       const cloudTables = selected.flatMap(item => item.keys);
       for (const t of cloudTables) {
-        try { await supabaseClient.from(t).delete().neq('id', null); } catch(e) { console.error('فشل حذف جدول '+t+':', e); cloudError = true; }
+        try { await getDbClient().from(t).delete().neq('id', null); } catch(e) { console.error('فشل حذف جدول '+t+':', e); cloudError = true; }
       }
       if (cloudError) showToast('تحذير: فشل حذف بعض البيانات من السحابة، تم مسح البيانات المحلية فقط','warning');
     }
