@@ -159,6 +159,17 @@ CREATE TABLE IF NOT EXISTS writeoffs (
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- جدول الفروع
+CREATE TABLE IF NOT EXISTS branches (
+  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name       TEXT NOT NULL,
+  location   TEXT,
+  manager    TEXT,
+  status     TEXT DEFAULT 'active' CHECK (status IN ('active','inactive')),
+  notes      TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- جدول المستخدمين
 CREATE TABLE IF NOT EXISTS users (
   id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -223,6 +234,7 @@ CREATE INDEX IF NOT EXISTS idx_wallet_ledger_date     ON wallet_ledger(date);
 CREATE INDEX IF NOT EXISTS idx_users_email            ON users(email);
 CREATE INDEX IF NOT EXISTS idx_activity_log_timestamp ON activity_log(timestamp DESC);
 CREATE INDEX IF NOT EXISTS idx_writeoffs_customer     ON writeoffs(customer_id);
+CREATE INDEX IF NOT EXISTS idx_branches_name          ON branches(name);
 
 -- ==============================
 -- الجزء الثالث: Row Level Security
@@ -243,6 +255,7 @@ ALTER TABLE roles            ENABLE ROW LEVEL SECURITY;
 ALTER TABLE role_permissions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE app_settings     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE activity_log     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE branches         ENABLE ROW LEVEL SECURITY;
 
 -- REPLICA IDENTITY FULL مطلوب لكي يعمل Supabase Realtime مع RLS
 ALTER TABLE customers        REPLICA IDENTITY FULL;
@@ -260,6 +273,7 @@ ALTER TABLE roles            REPLICA IDENTITY FULL;
 ALTER TABLE role_permissions REPLICA IDENTITY FULL;
 ALTER TABLE app_settings     REPLICA IDENTITY FULL;
 ALTER TABLE activity_log     REPLICA IDENTITY FULL;
+ALTER TABLE branches         REPLICA IDENTITY FULL;
 
 -- سياسات الوصول للجداول العامة (جميع المستخدمين المصادق عليهم)
 DROP POLICY IF EXISTS "authenticated_full_access" ON customers;
@@ -291,6 +305,9 @@ CREATE POLICY "authenticated_full_access" ON office_incoming  FOR ALL TO authent
 
 DROP POLICY IF EXISTS "authenticated_full_access" ON writeoffs;
 CREATE POLICY "authenticated_full_access" ON writeoffs        FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "authenticated_full_access" ON branches;
+CREATE POLICY "authenticated_full_access" ON branches         FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- سياسة جدول users
 DROP POLICY IF EXISTS "authenticated_full_access" ON users;
